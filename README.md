@@ -1,6 +1,6 @@
 # PADRISDataTools
 
-PADRISDataTools is a collection of scripts designed to clean, preprocess, and manage clinical and laboratory data from the PADRIS database.
+PADRISDataTools is a collection of scripts designed to clean, preprocess, and manage data from PADRIS.
 
 ## About PADRIS
 The PADRIS program (El Programa d'Analítica de Dades per a la Recerca i la Innovació en Salut) aims to make health data accessible for research purposes, aligning with legal and ethical frameworks while maintaining transparency towards the citizens of Catalonia.
