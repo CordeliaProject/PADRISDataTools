@@ -1,8 +1,6 @@
 ################################################
-# Functions to clean lab data
+# Patterns used to clean lab data
 # Marta Huertas
 # Grup d'Epidemiologia Cardiovascular - IMIM
-# Data: 20/12/2024
+# Data: 20/01/2024
 ################################################
-
-
