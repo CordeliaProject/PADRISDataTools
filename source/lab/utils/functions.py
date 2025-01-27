@@ -2,7 +2,7 @@
 # Functions to clean lab data
 # Marta Huertas
 # Grup d'Epidemiologia Cardiovascular - IMIM
-# Data: 20/12/2024
+# Data: 24/01/2024
 ################################################
 
 
