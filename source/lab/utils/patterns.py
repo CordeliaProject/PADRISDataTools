@@ -7,30 +7,37 @@
 
 patterns_common_words = {
     'nc': [
-        r"^(?:.*no.*)(?:calc(?:ulable)?|proce(?:deix|dent|sada)?|rebu(?:t|des)?|concloent|codi|valorable|realitza(?:da|t|r)?|possible).*",
-        r".*mostra.*(?:coagulada|hem(?:oòó)(?:litzada|lisi)|rebutjada|insuficient|no.*(?:remesa|adient|estable)|contaminada|inade(?:quat|quada)|impedeix|vess?ada).*",
+        r"^(?:.*no.*)(?:calc(?:ulable)?|proce(?:deix|dent|sada)?|rebu(?:t|des)?|concloent|codi|valorable|realitza(?:da|t|r)?|possible|m[ue|o]stra).*",
+        r".*mostra.*(?:coagulada|hem(?:oòó)(?:litzada|lisi)|rebutjada|insuficient|no.*[remesa|adient|estable|remitida]|contaminada|inade[quat|quada]|impedeix|vess?ada).*",
         r"^(?!.*\b(de|hipo)granulats?\b).*anu(?:lat|l·lat|lada|l·lada).*",
         r".*re(?:compte|cuento|sultat).*in(?:suficiente?|determinat|ferior).*"
     ],
-    'positiiu': [
-        r".*pos(?:itiu|itiva).*"
+    'positiu': [
+        r".*pos(?:itiu|itiva).*",
     ],
     'negatiu': [
-        r".*neg(?:atiu|ativa).*"
+        r"(?!.*\bgram\b).*neg(?:atius?|ativa).*"
     ],
     'normal': [
         r".*\snormal\s.*"
+        r"^(?:.*s[in|ense].*).*alteraci[oóóò]n.*$",	
     ],
-    'anormal': [
-        r".*(?!.*\bno\b).*\b(?:ba(?:jo|ix)|alt(?:o)?)\b.*"
+    'baix': [
+        r".*(?!.*\bno\b).*\b(?:ba(?:jo|ix))\b.*"
+    ],
+    'alt': [
+        r".*(?!.*\bno\b).*\b(?:alt(?:o)?)\b.*"
+    ],
+    'microorganisme' : [
+        r".*microorganisme\s?a[ïi]llat.*"
     ]
 }
 
 numeric_patterns = {
-    'Qn1': r"-?([.,]?[0-9]+)+",  # General number pattern
-    'Qn2': r"[<>+]{{1}}(=)? *(([.,]?[0-9]+)+)",  # Optional sign pattern and number, e.g., >100
-    'Qn3': r"[0-9]{1,4}\s*[-]\s*[0-9]{1,4}",  # Range pattern, e.g., 100-200
-    'Qn4': r"[<>]?\s*1[:/][0-9]{1,6}",  # Ratio type pattern, e.g., 1:1000
+    'n1': r"-?([.,]?[0-9]+)+",  # General number pattern
+    'n2': r"[<>]\s*(=?\s*)(([0-9]+([.,][0-9]+)?)|([0-9]*[.,][0-9]+))",  # Optional sign pattern and number, e.g., >100
+    'n3': r"[0-9]{1,4}\s*[-]\s*[0-9]{1,4}",  # Range pattern, e.g., 100-200
+    'n4': r"[<>]?\s*1[:/][0-9]{1,6}",  # Ratio type pattern, e.g., 1:1000
     'exponent': r"( ?[Xx*]{1} ?10(([Ee^][+-]?)|([+-]{1}))[0-9]{1,2})|([Ee][+-]?[0-9]{1,2})",  # Exponent handling
     'units': r"[a-zA-Z]{1,4}\s?\/\s?[a-zA-Z]{1,4}",  # Units pattern
 }
