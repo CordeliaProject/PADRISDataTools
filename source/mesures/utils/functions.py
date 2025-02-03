@@ -11,7 +11,7 @@ from utils.ranges import ranges, unitats
 
 def unify_missing_values(df):
     """ Replace various representations of missing values with a unified version."""
-    return df.replace([pd.NA, np.nan, 'nan', 'NaN', ''], np.nan)
+    return df.replace([pd.NA, np.nan, 'nan', 'NaN', ''], pd.NA)
 
 # Filter dataframe
 def filter_by_range(row):
