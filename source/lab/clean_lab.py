@@ -34,7 +34,7 @@ def main(inpath, outpath, report):
 
     # -----------------------------------------
     # ----- Step 1: Clear typos
-    print("Step 1: Cleaning types")
+    print("Step 1: Cleaning typos")
     clear_df = clear_typos(df)
 
     # -----------------------------------------
@@ -65,7 +65,7 @@ def main(inpath, outpath, report):
     # ----- Extra: Change column name to facilitate management
     # Order the columns
     standardize_df = standardize_df[['codi_p','peticio_id','Any_prova','Data_prova','lab_prova_c','lab_prova','lab_resultat','unitat_mesura','ref_min','ref_max','clean_result','clean_unit','comentari','comentari_unitat','num_type']]
-    standardize_df = standardize_df.rename(columns={"Any_prova": "any", "Prova_data": "data", "lab_resultat": "resultat", "lab_prova_c": "codi_prova", "lab_prova":"prova"})
+    standardize_df = standardize_df.rename(columns={"Any_prova": "any", "Data_prova": "data", "lab_resultat": "resultat", "lab_prova_c": "codi_prova", "lab_prova":"prova"})
 
 
     end_time = time.time()
@@ -75,7 +75,7 @@ def main(inpath, outpath, report):
     print(f"{outpath}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Clean and preprocess LAB data.")
+    parser = argparse.ArgumentParser(description="Clean and preprocess lab data.")
     parser.add_argument("--inpath", type=str, required=True, help="Input path for lab file.")
     parser.add_argument("--outpath", type=str, required=True, help="Output path for cleaned files.")
     parser.add_argument("--report", action="store_true", help="Enable report printing.")
