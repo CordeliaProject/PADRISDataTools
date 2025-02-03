@@ -22,11 +22,12 @@ def main(inpath, outpath, report):
     """ Main function to clean and process lab data. """
     # Record start time
     start_time = time.time()
-    warnings.filterwarnings("ignore", category=UserWarning, message=".*match groups.*") # 
+    warnings.filterwarnings("ignore", category=UserWarning, message=".*match groups.*") # Ignore warnings.
 
     print("Reading input...")
     # Import dataframe
-    df = pd.read_csv(inpath, sep = "|")
+    df = pd.read_csv(inpath, sep = "|", low_memory=False)
+    print(f"There are {df.shape[0]} rows.")
 
     # Important: Transform empty values to nocalc
     df["lab_resultat"] = df["lab_resultat"].fillna("nocalc")
