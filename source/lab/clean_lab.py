@@ -39,7 +39,7 @@ def main(inpath, outpath, report):
     # -----------------------------------------
     # ----- Step 2: Handle extra variables in the result
     print("Step 2: Handle extra variables")
-    clean_df = handle_extra_variables(clear_df, patterns_common_words, numeric_patterns, report=False)
+    clean_df = handle_extra_variables(clear_df, patterns_common_words, numeric_patterns, report=True)
 
     # -----------------------------------------
     # ----- Step 3: Classify the numeric result
@@ -48,12 +48,12 @@ def main(inpath, outpath, report):
 
     # -----------------------------------------
     # ----- Step 4: Standardize numeric results based in classification
-    standardize_df = standardize_numeric_results(clean_df, report=False)
+    standardize_df = standardize_numeric_results(clean_df, report=True)
 
     # -----------------------------------------
     # ----- Step 5: Standardize unit.
     print("Step 4: Standardize units")
-    standardize_df = standardize_unit(standardize_df, unit_patterns, report = False)
+    standardize_df = standardize_unit(standardize_df, unit_patterns, report=True)
 
     # -----------------------------------------
     # ----- Step 6: Standardize test name for each code.
