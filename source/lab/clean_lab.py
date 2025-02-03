@@ -68,7 +68,7 @@ def main(inpath, outpath, report):
 
 
     end_time = time.time()
-    print(f"Process done, total time: {((end_time - start_time) / 60):.2f}")
+    print(f"Process done, total time: {((end_time - start_time) / 60):.2f} min.")
     standardize_df.to_csv(outpath, sep = "|", index = False)
     print(f"Clean lab data in:")
     print(f"{outpath}")
