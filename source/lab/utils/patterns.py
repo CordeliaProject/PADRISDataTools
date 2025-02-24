@@ -10,7 +10,8 @@ patterns_common_words = {
         r"^(?:.*no.*)(?:calc(?:ulable)?|proce(?:deix|dent|sada)?|rebu(?:t|des)?|concloent|codi|valorable|realitza(?:da|t|r)?|possible|m[ue|o]stra).*",
         r".*mostra.*(?:coagulada|hem(?:oòó)(?:litzada|lisi)|rebutjada|insuficient|no.*[remesa|adient|estable|remitida]|contaminada|inade[quat|quada]|impedeix|vess?ada).*",
         r"^(?!.*\b(de|hipo)granulats?\b).*anu(?:lat|l·lat|lada|l·lada).*",
-        r".*re(?:compte|cuento|sultat).*in(?:suficiente?|determinat|ferior).*"
+        r".*re(?:compte|cuento|sultat).*in(?:suficiente?|determinat|ferior).*",
+        r".*--+.*",
     ],
     'positiu': [
         r".*pos(?:itiu|itiva).*",

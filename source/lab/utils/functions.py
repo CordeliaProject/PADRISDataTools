@@ -26,7 +26,7 @@ def standardize_number(value):
         value = re.sub(r',', '', value)
 
     # Mask 3: Adjust values like ',1234' to '0,1234'
-    if value.startswith(','):
+    if value.startswith(',') or value.startswith('.'):
         value = '0' + value  # Convert to 0,xxxx format
 
     # Step 2: Transform commas to dots for decimal numbers (e.g., '1,23' -> '1.23')
