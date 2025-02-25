@@ -29,6 +29,14 @@ def main(inpath, outpath, report):
     df = pd.read_csv(inpath, sep = "|", low_memory=False)
     print(f"There are {df.shape[0]} rows.")
 
+    # Pre-transformation of the data
+    # -----------------------------------------
+    # Unify missing values
+    pass
+
+    # Transform data types
+    pass
+
     # Important: Transform empty values to nocalc
     df["lab_resultat"] = df["lab_resultat"].fillna("nocalc")
 
