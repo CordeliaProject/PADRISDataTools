@@ -61,6 +61,12 @@ def standardize_n2(value):
     
     return result
 
+def unify_missing_values(df):
+    """ Standardizes missing values in lab data """
+    return df.replace([pd.NA, np.nan, 'nan', 'NaN', ''], pd.NA)
+
+
+
 # -----------------------------------------
 # ----- Step 1: Clear typos
 def clear_typos(df):

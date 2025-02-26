@@ -32,7 +32,7 @@ def main(inpath, outpath, report):
     # Pre-transformation of the data
     # -----------------------------------------
     # Unify missing values
-    pass
+    df = unify_missing_values(df)
 
     # Transform data types
     pass

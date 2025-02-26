@@ -11,7 +11,7 @@ from utils.casts import casts
 
 def unify_missing_values(df):
     """ Replace various representations of missing values with a unified version."""
-    return df.replace([pd.NA, np.nan, 'nan', 'NaN', ''], np.nan)
+    return df.replace([pd.NA, np.nan, 'nan', 'NaN', ''], pd.NA)
 
 def cast_columns(df, column_casts):
     """
