@@ -5,6 +5,7 @@
 # Data: 10/12/2024
 ################################################
 
+import pandas as pd
 # This script is not used directly, in here you'll find the factors used to transform from one unit to another
 
 # Dictionary to use known base units.

@@ -66,6 +66,16 @@ def unify_missing_values(df):
     return df.replace([pd.NA, np.nan, 'nan', 'NaN', ''], pd.NA)
 
 
+def cast_columns(df, column_casts):
+    """
+    Safely cast dataframe columns to specified types.
+    """
+    for col, dtype in column_casts.items():
+        try:
+            df[col] = df[col].astype(dtype)
+        except Exception as e:
+            print(f"Warning: Failed to convert column '{col}' to '{dtype}': {e}")
+    return df
 
 # -----------------------------------------
 # ----- Step 1: Clear typos

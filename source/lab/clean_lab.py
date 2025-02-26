@@ -34,9 +34,6 @@ def main(inpath, outpath, report):
     # Unify missing values
     df = unify_missing_values(df)
 
-    # Transform data types
-    pass
-
     # Important: Transform empty values to nocalc
     df["lab_resultat"] = df["lab_resultat"].fillna("nocalc")
 
@@ -75,6 +72,10 @@ def main(inpath, outpath, report):
     standardize_df = standardize_df[['codi_p','peticio_id','Any_prova','Data_prova','lab_prova_c','lab_prova','lab_resultat','unitat_mesura','ref_min','ref_max','clean_result','clean_unit','comentari','comentari_unitat','num_type']]
     standardize_df = standardize_df.rename(columns={"Any_prova": "any", "Data_prova": "data", "lab_resultat": "resultat", "lab_prova_c": "codi_prova", "lab_prova":"prova"})
 
+    # Transform data types
+    standardize_df = cast_columns(standardize_df, casts)
+    # Transform to datetime
+    standardize_df["data"] = pd.to_datetime(standardize_df["data"], errors='coerce')
 
     end_time = time.time()
     print(f"Process done, total time: {((end_time - start_time) / 60):.2f} min.")
