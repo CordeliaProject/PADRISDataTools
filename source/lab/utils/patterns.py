@@ -8,11 +8,8 @@ import pandas as pd
 
 # Casts used to transform columns to the correct data type
 casts = { 
-'lab': {
     'codi_p': pd.Int64Dtype(),
-    'peticio_id': pd.Int64Dtype(),
     'any': pd.Int64Dtype(),
-}
 }
 
 patterns_common_words = {

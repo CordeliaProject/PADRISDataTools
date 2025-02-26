@@ -75,7 +75,8 @@ def main(inpath, outpath, report):
     # Transform data types
     standardize_df = cast_columns(standardize_df, casts)
     # Transform to datetime
-    standardize_df["data"] = pd.to_datetime(standardize_df["data"], errors='coerce')
+    standardize_df["data"] = pd.to_datetime(standardize_df["data"], errors='coerce', daytime = True)
+    standardize_df["num_type"] = standardize_df["num_type"].astype("category")
 
     end_time = time.time()
     print(f"Process done, total time: {((end_time - start_time) / 60):.2f} min.")
