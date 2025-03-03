@@ -108,13 +108,16 @@ def handle_extra_variables(df, patterns_common_words, numeric_patterns, report=F
     for flag, patterns in patterns_common_words.items():
         for pattern in patterns:
             # Use str.extract to directly capture matching groups
-            mask_literal = df['clean_result'].str.contains(pattern, na=False, flags=re.IGNORECASE, regex=True) #Filter dataframe to only include rows where the pattern is found
+            mask_literal = df['clean_result'].str.contains(pattern, na=False, flags=re.IGNORECASE, regex=True) # Filter dataframe to only include rows where the pattern is found
 
             # Update the cleaning_comments column for affected rows
             add_cleaning_comment(mask_literal, 'literal')
 
             # Apply the replacement to the clean_result column only for rows that match the pattern
             df.loc[mask_literal, 'clean_result'] = flag
+    # Handle all those cases in which there are no numeric values but are not already flagged as literal
+    mask_else_literal = (df["comentari"].isna()) & (df['clean_result'].str.match(r'^[a-zA-Z]+$', na=False)) # Filter dataframe to only include rows where the pattern is found
+    add_cleaning_comment(mask_else_literal, 'literal') # Add a comment to the 'comentari' column.
 
     # Step 2: Handle units and flags adjacent to numbers
     adjacent_units1 = r'^(' + numeric_patterns['n1'] + r')\s*(' + numeric_patterns['units']  + r')$'
