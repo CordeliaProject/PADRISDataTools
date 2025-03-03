@@ -115,7 +115,7 @@ unit_patterns= {
     'meq/(24.h)' : r'(?i)([\d]+(,[\d]+)*)?mequ?\s?[\/7]\s?(24\s?h(or[ae]s)?|d(ia)?)$',                                                                               # meq/24h
     'mL/min/1.73m2' : r'(?i)^(ml|mil?)\s?(\/7)?\s?min\s?(\/7)?\s1[.,]73\s*m?[²2]$',                                                                                  # ml/min/1.73m2
     'mL/min' : r'(?i)^ml\s?[\/7]\s?m(i|in|n|inut)$',                                                                                                                 # ml/min
-    'ng/ml/h' : r'(?i)^ng\s?[\/7]\s?ml\s?[\/7]\s?h(ora)?$',                                                                                                          # ng/ml/h
+    'ng/mL/h' : r'(?i)^ng\s?[\/7]\s?ml\s?[\/7]\s?h(ora)?$',                                                                                                          # ng/ml/h
     'cel/mm3': r'(?i)^(\d+([\.,]\d+)?\s*)?(cel|c[iy]l|hem|er[yi]|leu).*[/7]\s?(mm\s?[3]?|c([uú]bic)?)?\.?$',                                                         # cel/mm3
     'cel/uL' : r'(?i)^(\d+([\.,]\d+)?\s*)?(cel|c[iy]l|hem|er[yi]|leu).*[/7]\s?â?(mc|micro|u|µ)\s?l\.?$',                                                             # cel/µl
     'cel/camp' : r'(?i)^(per\s?camp|x?\s?camp|(cel)?\s?[\/7]\s?camp)$',                                                                                              # cel/camp
@@ -132,7 +132,7 @@ unit_patterns= {
     'mg/kg' : r'(?i)^u?mg.*\s?[\/7]\s?kg.*$',                                                                                                                        # mg/kg
     'ug/mg' : r'(?i)^(?!.*µg/ghb|umg/mg)â?(mc|micro|u|µ|mu)g.*\s?[\/7]\s?.*mgr?.*$',                                                                                 # µg/mg
     'mmol/kg' : r'(?i)^m(os)?m(ol)?\s?[\/7]\s?.*kgr?.*',                                                                                                             # mmol/kg
-    '[GPLU]/ml' : r'(?i)^(u\s?)?gpl.*\s?[\/7]\s?ml',                                                                                                                 # gpl/ml
+    '[GPLU]/mL' : r'(?i)^(u\s?)?gpl.*\s?[\/7]\s?ml',                                                                                                                 # gpl/ml
     'ukat/L' : r'(?i)^[uµ]kat\s?[\/7]\s?l',                                                                                                                          # µkat/l
     'mU/10*9 cel' : r'(?i)^mu\s?[\/7]\s?\s?(10?.*9.*|mil.*|1000\s?mil.*)',                                                                                           # mu/10^9 mili unitats per 10*9 celules
     'meq/L' : r'(?i)^([\d]+(,[\d]+)*)?mequ?\s?[\/7]\s?\s?l',                                                                                                         # meq/l

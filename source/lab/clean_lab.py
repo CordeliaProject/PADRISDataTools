@@ -75,7 +75,7 @@ def main(inpath, outpath, report):
     # Transform data types
     standardize_df = cast_columns(standardize_df, casts)
     # Transform to datetime
-    standardize_df["data"] = pd.to_datetime(standardize_df["data"], errors='coerce', daytime = True)
+    standardize_df["data"] = pd.to_datetime(standardize_df["data"], errors='coerce', dayfirst = True)
     standardize_df["num_type"] = standardize_df["num_type"].astype("category")
 
     end_time = time.time()
