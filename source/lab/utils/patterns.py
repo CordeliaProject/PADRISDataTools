@@ -46,7 +46,7 @@ numeric_patterns = {
     'n2': r"[<>]\s*(=?\s*)(([0-9]+([.,][0-9]+)?)|([0-9]*[.,][0-9]+))",  # Optional sign pattern and number, e.g., >100
     'n3': r"[0-9]{1,4}\s*[-]\s*[0-9]{1,4}",  # Range pattern, e.g., 100-200
     'n4': r"[<>]?\s*1[:/][0-9]{1,6}",  # Ratio type pattern, e.g., 1:1000
-    'exponent': r"( ?[Xx*]{1} ?10(([Ee^][+-]?)|([+-]{1}))[0-9]{1,2})|([Ee][+-]?[0-9]{1,2})",  # Exponent handling
+    'exponent': r"(?:\d+\.?\d*)\^[-+]?(\d+\.?\d*)|[Xx*]?\s*10[Ee\^][+-]?(\d+\.?\d*)",  # Exponent handling
     'units': r"[a-zA-Z]{1,4}\s?\/\s?[a-zA-Z]{1,4}",  # Units pattern
 }
 
@@ -88,7 +88,7 @@ unit_patterns= {
     'mg/mmol' : r'(?i)^(\d+([\.,]\d+)?\s*)?mg\s?[\/7]\s?(m?mmol?|mosmo?l)\s*[a-zA-Z]*',                                                                              # mg/mmol
     'mol/mol' : r'(?i)^(\d+([\.,]\d+)?\s*)?mol\s?[\/7]\s?mol\s*[a-zA-Z]*',                                                                                           # mol/mmol
     'g/mol' : r'(?i)^(\d+([\.,]\d+)?\s*)?g\s?[\/7]\s?mol\s*[a-zA-Z]*',                                                                                               # g/mol
-    '10*3/uL' : r'(?i)^x?\s?(10(\^|&|E|>)?[3³]|mil\.?|1000|k)(\s_)?u?\s?[\/7]\s?(µ|u|mc|micro)l\s*[a-zA-Z]*$',                                                       # 10^3/µl
+    '10*3/uL' : r'(?i)^x?\s?(10(\^|&|E|>)?[3³]|mil\.?|1000|k)(\s)?(\_)?u?\s?[\/7]\s?(µ|u|mc|micro)l\s*[a-zA-Z]*$',                                                       # 10^3/µl
     '10*3/mm3' : r'(?i)^x?\s?(10(\^|&|E|>)?[3³]|mil\.?|1000|k)(\s_)?u?\s?[\/7]\s?mm\s?.*$',                                                                          # 10^3/mm3
     '10*3/mL' : r'(?i)^x?\s?(10(\^|&|E|>)?[3³]|mil\.?|1000|k)(\s_)?u?\s?[\/7]\s?m(ili)?l\s*[a-zA-Z]*$',                                                              # 10^3/ml
     '10*3' : r'(?i)^x?\s?\s?(10(\^|&|E|>)?[3³]|mil\.?|1000|k)(\s_)?u?\s*[a-zA-Z]*$',                                                                                 # 10^3

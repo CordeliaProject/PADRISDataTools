@@ -67,6 +67,15 @@ def main(inpath, outpath, report):
     standardize_df = standardize_name(standardize_df)
     
     # -----------------------------------------
+    # ----- Step 7: Reference values.
+    print("Step 6: Standardize reference values")
+    mask_min = standardize_df['ref_min'].notna() # Create a mask for the conditions
+    mask_max = standardize_df['ref_max'].notna() # Create a mask for the conditions
+    
+    standardize_df.loc[mask_min, 'ref_min'] = df.loc[mask_min, 'ref_min'].apply(standardize_number) # Apply transformation using the mask (vectorized)
+    standardize_df.loc[mask_max, 'ref_max'] = df.loc[mask_max, 'ref_max'].apply(standardize_number) # Apply transformation using the mask (vectorized)
+
+    # -----------------------------------------
     # ----- Extra: Change column name to facilitate management
     # Order the columns
     standardize_df = standardize_df[['codi_p','peticio_id','Any_prova','Data_prova','lab_prova_c','lab_prova','lab_resultat','unitat_mesura','ref_min','ref_max','clean_result','clean_unit','comentari','comentari_unitat','num_type']]
@@ -77,6 +86,9 @@ def main(inpath, outpath, report):
     # Transform to datetime
     standardize_df["data"] = pd.to_datetime(standardize_df["data"], errors='coerce', dayfirst = True)
     standardize_df["num_type"] = standardize_df["num_type"].astype("category")
+    # Transform to float all those rows in clean result with num_type = n1
+    #mask_n1 = standardize_df['num_type'] == 'n1'
+    #standardize_df.loc[mask_n1, 'clean_result'] = standardize_df.loc[mask_n1, 'clean_result'].astype(float)
 
     end_time = time.time()
     print(f"Process done, total time: {((end_time - start_time) / 60):.2f} min.")
