@@ -87,11 +87,12 @@ def main(inpath, outpath, report):
     standardize_df["data"] = pd.to_datetime(standardize_df["data"], errors='coerce', dayfirst = True)
     standardize_df["num_type"] = standardize_df["num_type"].astype("category")
     # Transform to float all those rows in clean result with num_type = n1
-    #mask_n1 = standardize_df['num_type'] == 'n1'
-    #standardize_df.loc[mask_n1, 'clean_result'] = standardize_df.loc[mask_n1, 'clean_result'].astype(float)
+    mask_n1 = (standardize_df['num_type'] == 'n1') & (standardize_df['comentari'] != 'exponents')
+    standardize_df.loc[mask_n1, 'clean_result'] = standardize_df.loc[mask_n1, 'clean_result'].astype(float)
 
     end_time = time.time()
     print(f"Process done, total time: {((end_time - start_time) / 60):.2f} min.")
+    print(f"Generating output...")
     standardize_df.to_csv(outpath, sep = "|", index = False)
     print(f"Clean lab data in:")
     print(f"{outpath}")

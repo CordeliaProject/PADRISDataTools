@@ -36,9 +36,9 @@ def standardize_number(value):
     value = re.sub(r'^0+(\d)', r'\1', value)  # Remove leading zeros before digits
     value = re.sub(r'^0+(\.\d+)', r'0\1', value)  # Ensure '0.' is kept for decimals
 
-    # Step 4: Round to 3 decimals
+    # Step 4: Round to 4 decimals
     if '.' in value:
-        value = re.sub(r'(\.\d{3})\d+', r'\1', value)  # Keep up to 3 decimal places
+        value = re.sub(r'(\.\d{4})\d+', r'\1', value)  # Keep up to 3 decimal places
         value = value.rstrip('0').rstrip('.')  # Remove trailing zeros and possibly the decimal point
 
     return value
@@ -165,7 +165,7 @@ def handle_extra_variables(df, patterns_common_words, numeric_patterns, report=F
     df.loc[mask_percent, 'unitat_mesura'] = percent_result[2]
 
     # Step 5: Handle exponents
-    exponent_pattern = rf"^({numeric_patterns['n1']})({numeric_patterns['exponent']})$" # Define the pattern to match.
+    exponent_pattern = rf"^({numeric_patterns['exponent']})$" # Define the pattern to match.
     mask_exponent = df['clean_result'].str.contains(exponent_pattern, na=False, regex=True) # Filter dataframe to only include rows where the pattern is found.
     add_cleaning_comment(mask_exponent, 'exponents') # Add comment
     # Extract base number and exponent separately
@@ -174,7 +174,7 @@ def handle_extra_variables(df, patterns_common_words, numeric_patterns, report=F
     df.loc[mask_exponent, 'clean_result'] = extracted[0].apply(standardize_number) + extracted[2] # Clean the number and add the exponent
     
     # Clean up stray characters from exponents
-    df['clean_result'] = df['clean_result'].str.replace(r"[\*\^]", "", regex=True)
+    #df['clean_result'] = df['clean_result'].str.replace(r"[\*\^]", "", regex=True)
 
     # Reporting
     if report:
@@ -194,19 +194,19 @@ def classify_numeric_results(df,  numeric_patterns):
 
     # Step 1: Assign n1 scale type for inequality patterns
     df['num_type'] = df['num_type'].where(
-        ~df['clean_result'].str.match(f"^{numeric_patterns['n1']}$"), "n1")
+        (~df['clean_result'].astype(str).str.match(f"^{numeric_patterns['n1']}$")) | (df['comentari'] == "exponents"), "n1")
     
     # Step 2: Assign n2 scale type for inequality patterns
     df['num_type'] = df['num_type'].where(
-        ~df['clean_result'].str.match(f"^{numeric_patterns['n2']}$"), "n2")
+        ~df['clean_result'].astype(str).str.match(f"^{numeric_patterns['n2']}$"), "n2")
     
     # Step 3: Assign n3 for range patterns separated by hypens
     df['num_type'] = df['num_type'].where(
-        ~df['clean_result'].str.match(f"^{numeric_patterns['n3']}$"), "n3")
+        ~df['clean_result'].astype(str).str.match(f"^{numeric_patterns['n3']}$"), "n3")
 
     # Step 4: Assign n4 for titer patterns. When a number is divided by a second integer. Separated by ":" or "/"
     df['num_type'] = df['num_type'].where(
-        ~df['clean_result'].str.match(f"^{numeric_patterns['n4']}$"), "n4")
+        ~df['clean_result'].astype(str).str.match(f"^{numeric_patterns['n4']}$"), "n4")
 
     return df
 

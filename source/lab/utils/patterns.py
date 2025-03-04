@@ -46,7 +46,7 @@ numeric_patterns = {
     'n2': r"[<>]\s*(=?\s*)(([0-9]+([.,][0-9]+)?)|([0-9]*[.,][0-9]+))",  # Optional sign pattern and number, e.g., >100
     'n3': r"[0-9]{1,4}\s*[-]\s*[0-9]{1,4}",  # Range pattern, e.g., 100-200
     'n4': r"[<>]?\s*1[:/][0-9]{1,6}",  # Ratio type pattern, e.g., 1:1000
-    'exponent': r"(?:\d+\.?\d*)\^[-+]?(\d+\.?\d*)|[Xx*]?\s*10[Ee\^][+-]?(\d+\.?\d*)",  # Exponent handling
+    'exponent': r"((?:\d+(\.|\,)?\d*)\^[-+]?(\d+\.?\d*)|(\d+(\.|\,)?\d*)?[Xx*]?\s*10[Ee\^][+-]?(\d+(\.|\,)?\d*)).*",  # Exponent handling
     'units': r"[a-zA-Z]{1,4}\s?\/\s?[a-zA-Z]{1,4}",  # Units pattern
 }
 
