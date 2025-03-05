@@ -230,7 +230,7 @@ def standardize_numeric_results(df, report=False):
         print(f"{scale_records_n} result records of scale type '{num_type}' ({scale_records_percent:.2f}%).")
 
     # Step 1: Harmonize n1 results.
-    mask_n1 = df['num_type'] == 'n1' # Create a mask for the conditions
+    mask_n1 = (df['num_type'] == 'n1') & (df['comentari'] != "exponents") # Create a mask for the conditions
     df.loc[mask_n1, 'clean_result'] = df.loc[mask_n1, 'clean_result'].apply(standardize_number) # Apply transformation using the mask (vectorized)
 
     # Step 2: Harmonize n2, n3, n4 results.
