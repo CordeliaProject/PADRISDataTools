@@ -42,10 +42,11 @@ patterns_common_words = {
 }
 
 numeric_patterns = {
-    'n1': r"-?([.,]?[0-9]+)+",  # General number pattern
-    'n2': r"[<>]\s*(=?\s*)(([0-9]+([.,][0-9]+)?)|([0-9]*[.,][0-9]+))",  # Optional sign pattern and number, e.g., >100
+    'n1': r"(?!:\d+[\.,]\d+[\.,]\d{1,2})-?([\.,]?[0-9]+)+",  # General number pattern
+    'n2': r"[<>]\s*(=?\s*)(([0-9]+([\.,][0-9]+)?)|([0-9]*[\.,][0-9]+))",  # Optional sign pattern and number, e.g., >100
     'n3': r"[0-9]{1,4}\s*[-]\s*[0-9]{1,4}",  # Range pattern, e.g., 100-200
     'n4': r"[<>]?\s*1[:/][0-9]{1,6}",  # Ratio type pattern, e.g., 1:1000
+    'other': r"(\d+[\.,]\d+[\.,]\d{1,2})",  # Numbers with two decimal points wrongly written
     'exponent': r"((?:\d+(\.|\,)?\d*)\^[-+]?(\d+\.?\d*)|(\d+(\.|\,)?\d*)?[Xx*]?\s*10[Ee\^][+-]?(\d+(\.|\,)?\d*)).*",  # Exponent handling
     'units': r"[a-zA-Z]{1,4}\s?\/\s?[a-zA-Z]{1,4}",  # Units pattern
 }

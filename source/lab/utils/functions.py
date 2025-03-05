@@ -169,9 +169,9 @@ def handle_extra_variables(df, patterns_common_words, numeric_patterns, report=F
     mask_exponent = df['clean_result'].str.contains(exponent_pattern, na=False, regex=True) # Filter dataframe to only include rows where the pattern is found.
     add_cleaning_comment(mask_exponent, 'exponents') # Add comment
     # Extract base number and exponent separately
-    extracted = df.loc[mask_exponent, 'clean_result'].str.extract(exponent_pattern)
+    # extracted = df.loc[mask_exponent, 'clean_result'].str.extract(exponent_pattern)
     # Apply standardization to the base number (n1)
-    df.loc[mask_exponent, 'clean_result'] = extracted[0].apply(standardize_number) + extracted[2] # Clean the number and add the exponent
+    # df.loc[mask_exponent, 'clean_result'] = extracted[0].apply(standardize_number) + extracted[2] # Clean the number and add the exponent
     
     # Clean up stray characters from exponents
     #df['clean_result'] = df['clean_result'].str.replace(r"[\*\^]", "", regex=True)
@@ -192,21 +192,11 @@ def classify_numeric_results(df,  numeric_patterns):
     if 'num_type' not in df.columns:
         df['num_type'] = pd.NA
 
-    # Step 1: Assign n1 scale type for inequality patterns
-    df['num_type'] = df['num_type'].where(
-        (~df['clean_result'].astype(str).str.match(f"^{numeric_patterns['n1']}$")) | (df['comentari'] == "exponents"), "n1")
-    
-    # Step 2: Assign n2 scale type for inequality patterns
-    df['num_type'] = df['num_type'].where(
-        ~df['clean_result'].astype(str).str.match(f"^{numeric_patterns['n2']}$"), "n2")
-    
-    # Step 3: Assign n3 for range patterns separated by hypens
-    df['num_type'] = df['num_type'].where(
-        ~df['clean_result'].astype(str).str.match(f"^{numeric_patterns['n3']}$"), "n3")
-
-    # Step 4: Assign n4 for titer patterns. When a number is divided by a second integer. Separated by ":" or "/"
-    df['num_type'] = df['num_type'].where(
-        ~df['clean_result'].astype(str).str.match(f"^{numeric_patterns['n4']}$"), "n4")
+    for num_type in ['n1', 'n2', 'n3', 'n4', 'other']:
+        # Assign the scale type based on the numeric patterns
+        df['num_type'] = df['num_type'].where(
+            ~df['clean_result'].astype(str).str.match(f"^{numeric_patterns[num_type]}$"), num_type
+        )
 
     return df
 
@@ -230,7 +220,7 @@ def standardize_numeric_results(df, report=False):
         print(f"{scale_records_n} result records of scale type '{num_type}' ({scale_records_percent:.2f}%).")
 
     # Step 1: Harmonize n1 results.
-    mask_n1 = (df['num_type'] == 'n1') & (df['comentari'] != "exponents") # Create a mask for the conditions
+    mask_n1 = (df['num_type'] == 'n1') # Create a mask for the conditions
     df.loc[mask_n1, 'clean_result'] = df.loc[mask_n1, 'clean_result'].apply(standardize_number) # Apply transformation using the mask (vectorized)
 
     # Step 2: Harmonize n2, n3, n4 results.
@@ -291,8 +281,8 @@ def standardize_unit(df, unit_patterns, report = False):
 
     if report:
         n_units_standardized = len(df[df['comentari_unitat'] == "done"]) # Calculate the number of rows with standardized units.
-        scale_records_percent = (n_units_standardized / total_n_records * 100) if total_n_records else np.nan # Calculate the percentage of total records.
-        print(f"{n_units_standardized} rows with standardized units ({scale_records_percent:.2f}%).")
+        unit_records_percent = (n_units_standardized / total_n_records * 100) if total_n_records else np.nan # Calculate the percentage of total records.
+        print(f"{n_units_standardized} rows with standardized units ({unit_records_percent:.2f}%).")
 
     return df
 

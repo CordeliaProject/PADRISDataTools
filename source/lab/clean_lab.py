@@ -81,14 +81,14 @@ def main(inpath, outpath, report):
     standardize_df = standardize_df[['codi_p','peticio_id','Any_prova','Data_prova','lab_prova_c','lab_prova','lab_resultat','unitat_mesura','ref_min','ref_max','clean_result','clean_unit','comentari','comentari_unitat','num_type']]
     standardize_df = standardize_df.rename(columns={"Any_prova": "any", "Data_prova": "data", "lab_resultat": "resultat", "lab_prova_c": "codi_prova", "lab_prova":"prova"})
 
+    # Remove hypens from "peticio_id"
+    standardize_df["peticio_id"] = standardize_df["peticio_id"].str.replace(r"-", "")
+    standardize_df["peticio_id"] = standardize_df["peticio_id"].str.replace(r"\.0", "", regex = True)
     # Transform data types
     standardize_df = cast_columns(standardize_df, casts)
     # Transform to datetime
     standardize_df["data"] = pd.to_datetime(standardize_df["data"], errors='coerce', dayfirst = True)
     standardize_df["num_type"] = standardize_df["num_type"].astype("category")
-    # Transform to float all those rows in clean result with num_type = n1
-    #mask_n1 = (standardize_df['num_type'] == 'n1') & (standardize_df['comentari'] != 'exponents')
-    #standardize_df.loc[mask_n1, 'clean_result'] = standardize_df.loc[mask_n1, 'clean_result'].astype(float)
 
     end_time = time.time()
     print(f"Process done, total time: {((end_time - start_time) / 60):.2f} min.")
