@@ -6,29 +6,15 @@
 ################################################
 
 import pandas as pd
-# This script is not used directly, in here you'll find the factors used to transform from one unit to another
 
-# Dictionary to use known base units.
-base_units = {"l",      # Volume
-              "mm3",    # Volume
-              "g",      # Mass
-              "mol",    # Moles
-              "m",      # Molarity
-              "s",      # Time (seconds)
-              "ui",     # Enzymatic activity
-              "eq",     # Equivalents
-              "osmol",  # Osmol
-              "kat",    # Enzymatic activity
-              "ph"      # pH
-              }
-
-# Dictionary to transform inside the same unit in different magnitudes
-factor_dict = {
-     "p": 1e-12,
-     "n": 1e-9,
-     "µ": 1e-6,
-     "m": 1e-3,
-     "d": 1e-1,
-     "": 1,
-     "k": 1e3,
-}
+# Dictionary to transform from one unit to another in different measurements
+conversion_dict = {
+    'Q13285' : {'unit': 'mmol/l', 'factor': 38.66}, # Total cholesterol
+    'Q12785' : {'unit': 'mmol/l', 'factor': 38.66}, # HDL cholesterol
+    'Q53585' : {'unit': 'g/l', 'factor': 100}, # Triglyceride
+    'Q53585' : {'unit': 'mmol/l', 'factor': 88.5}, # Triglyceride
+    'Q32685' : {'unit': 'mmol/l', 'factor': 18}, # Glucose
+    'Q32666' : {'unit': 'mmol/l', 'factor': 18}, # Glucose
+    'Q15185' : {'unit': 'umol/l', 'factor': 88.42}, # Creatinine
+    'Q15166' : {'unit': 'umol/l', 'factor': 88.42}, # Creatinine
+    }
