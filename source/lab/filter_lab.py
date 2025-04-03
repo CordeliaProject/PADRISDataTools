@@ -76,6 +76,9 @@ def main(inpath, conversion_file, outpath, report, result_type = "n1"):
         # Select relevant columns
         merged_df = merged_df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']]
 
+        # If there is no unit, converted_result is empty
+        merged_df.loc[merged_df['from_unit'].isna(),'converted_result'] = pd.NA
+        
         #Rename columns
         merged_df.rename(columns = {'from_unit': 'unit', 'to_unit': 'converted_unit'}, inplace=True)
 
