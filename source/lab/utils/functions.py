@@ -26,22 +26,23 @@ def standardize_number(value):
         value = re.sub(r',', '', value)
 
     # Mask 3: Adjust values like ',1234' to '0,1234'
-    if value.startswith(',') or value.startswith('.'):
-        value = '0' + value  # Convert to 0.xxxx format
+    if re.match(r'^[,\.]\d+', value):
+        value = '0' + value.replace(',', '.')
 
     # Step 2: Transform commas to dots for decimal numbers (e.g., '1,23' -> '1.23')
     value = re.sub(r',', '.', value)
 
     # Step 3: Remove leading zeros unless it's a decimal (e.g., '01.23' -> '1.23')
+    value = re.sub(r'^0+(\.\d+)', r'0\1', value)  # Ensure '0.x' is kept
     value = re.sub(r'^0+(\d)', r'\1', value)  # Remove leading zeros before digits
-    value = re.sub(r'^0+(\.\d+)', r'0\1', value)  # Ensure '0.' is kept for decimals
 
-    # Step 4: Round to 4 decimals
-    if '.' in value:
-        value = re.sub(r'(\.\d{4})\d+', r'\1', value)  # Keep up to 3 decimal places
-        value = value.rstrip('0').rstrip('.')  # Remove trailing zeros and possibly the decimal point
+    # Step 4: Transform to numeric and round to 4 decimal places
+    try:
+        value = round(float(value), 4)
+    except ValueError:
+        pass  # If conversion fails, keep the original value
 
-    return value
+    return str(value)
 
 def standardize_n2(value):
     """ Standardizes the format of numeric values of num_type n2 in the lab data."""

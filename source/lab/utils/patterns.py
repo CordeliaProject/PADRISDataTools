@@ -75,7 +75,7 @@ unit_patterns= {
     'mmol/L' : r'(?i)^(?!.*(?:/mm?ol?|.*dl|.*ml))(\d+([\.,]\d+)?\s*)?(mm?ol?|mosmo?l)\s?[\/7]\s?[a-zA-Z\d]*l[a-zA-Z\d]*$',                                           # mmol/l
     'pmol/L' : r'(?i)^(?!.*(?:/mm?ol?|.*dl|.*ml))(\d+([\.,]\d+)?\s*)?(pm(ol)?)\s?[\/7]\s?[a-zA-Z\d]*l[a-zA-Z\d]*$',                                                  # pmol/l
     'mmol/dL' : r'(?i)^(?!.*(?:/mm?ol?))(\d+([\.,]\d+)?\s*)?(mm?ol?|mosmo?l)\s?[\/7]\s?[a-zA-Z\d]*dl[a-zA-Z\d]*',                                                    # mmol/dl
-    'umol/L' : r'^(\d+([\.,]\d+)?\s*)?[âá]?([âáuµ]|micro|mu)(m?ol?|mosmo?l)\s?[\/7]\s?[a-zA-Z\d]*dl[a-zA-Z\d]*',                                                     # µmol/l
+    'umol/L' : r'^(\d+([\.,]\d+)?\s*)?[ÂâÁá]?([ÂâÁáuµ]|micro|mu)(mol|mosmo?l)\s?[\/7]\s?[a-zA-Z\d]*l[a-zA-Z\d]*',                                                     # µmol/l
     '[IU]/mL' : r'(?i)^(\d+([\.,]\d+)?\s*)?(u[\s\.]?i(\.|nt\.?|\s)?|i(\.|nt\.?|\s)?u\.?)\s?[\/7]\s?ml.*$',                                                           # ui/ml (unitats internacionals / ml)
     '[arbU]/mL' : r'(?i)^(\d+([\.,]\d+)?\s*)?(u[\s\.\-]?\s*a(rb)?(?:itrary)?|a\.?u\.?)\s?[\/7]\s?ml.*$',                                                             # ua/ml (unitats arbitraries / ml)
     '[IU]/L' : r'(?i)^(\d+([\.,]\d+)?\s*)?(u[\s\.]?i(\.|nt\.?|\s)?|i(\.|nt\.?|\s)?u\.?)\s?[\/7]\s?l.*$',                                                             # ui/l (unitats internacionals / l)
