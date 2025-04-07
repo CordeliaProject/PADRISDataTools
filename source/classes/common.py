@@ -12,7 +12,7 @@ class CommonData:
         self.df = df
         self.column_casts = column_casts
 
-    def unify_missing_values(self):
+    def unify_missing(self):
         """ Replace various representations of missing values with a unified version."""
         self.df = self.df.replace([pd.NA, np.nan, 'nan', 'NaN', ''], pd.NA)
         return self.df

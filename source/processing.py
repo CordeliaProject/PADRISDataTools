@@ -42,5 +42,5 @@ def process_dataframe(inpath, outpath, entity, column_casts):
         raise ValueError(f"Unknown entity type: {entity}")
 
     # Process the dataframe and save it to the output path
-    processed_df = data_processor.process_df()
+    processed_df = data_processor.process()
     processed_df.to_csv(outpath, index=False, sep = "|")  # Save the processed dataframe to CSV

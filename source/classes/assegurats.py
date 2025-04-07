@@ -22,9 +22,9 @@ class Assegurats(CommonData):
         else:
             raise ValueError(f"Column '{date_col}' not found in the DataFrame.")
 
-    def process_df(self):
+    def process(self):
         """ Function to process Assegurats data."""
-        self.df = self.unify_missing_values()
+        self.df = self.unify_missing()
         self.df = self.cast_columns()
         self.df = self._add_year_col('data_defuncio')
         

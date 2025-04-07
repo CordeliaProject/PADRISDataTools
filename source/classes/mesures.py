@@ -42,9 +42,9 @@ class Measures(CommonData):
         """Filter rows where the measurement value is within allowed range."""
         self.df = self.df[self.df.apply(self._filter_by_range, axis=1, args=(self.ranges,))]
 
-    def process_df(self):
+    def process(self):
         """Run full processing pipeline for Measures data."""
-        self.df = self.unify_missing_values()
+        self.df = self.unify_missing()
         self.df = self.cast_columns()
         self._filter_by_codes()
         self._apply_range_filter()

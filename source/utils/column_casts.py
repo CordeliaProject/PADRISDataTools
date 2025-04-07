@@ -36,6 +36,11 @@ column_casts = {
         'Prova_resultat': 'float',
         'Prova_data': 'datetime64[ns]',
 },
+    'Lab': { 
+        'any': pd.Int64Dtype(),
+        'num_type': 'category',
+        'data': 'datetime64[ns]',
+},
     'Primaria': { 
         'any_problema_salut': pd.Int64Dtype(),
         'data_problema_salut': 'datetime64[ns]',

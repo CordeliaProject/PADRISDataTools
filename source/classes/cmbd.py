@@ -11,7 +11,7 @@ class Episodis(CommonData):
         """ Constructor for the Assegurats class. """
         super().__init__(df, column_casts)  # Pass outpath to parent constructor
 
-    def fix_inconsistencies(self):
+    def _fix_inconsistencies(self):
         """ 
         Detect inconsistencies in episodi identifiers.
         Fix episodi identifiers before 2018 to a positive value.
@@ -23,7 +23,7 @@ class Episodis(CommonData):
 
         return self.df
 
-    def process_df(self):
+    def process(self):
         """ Function to process Episodis data."""
         self.df = self.unify_missing_values()
         self.df = self.cast_columns()
@@ -31,7 +31,7 @@ class Episodis(CommonData):
         if 'data_alta' in self.df.columns:
             self.df['any_referencia'] = pd.to_numeric(self.df['data_alta'].dt.year, errors='coerce')
 
-        self.df = self.fix_inconsistencies()
+        self.df = self._fix_inconsistencies()
 
         return self.df
 
@@ -70,7 +70,7 @@ class DiagnosticsProcediments(CommonData):
         """ Get the most frequent value in a group. """
         return group.mode().iloc[0] if not group.mode().empty else None
 
-    def fix_inconsistencies(self):
+    def _fix_inconsistencies(self):
         """ 
         Detect inconsistencies in episodis identifiers (diagnostics or procedures).
         Fix inconsistencies for episodis identifiers before 2018 to ensure correct mappings.
@@ -107,10 +107,10 @@ class DiagnosticsProcediments(CommonData):
         
         return fixed_merged
 
-    def process_df(self):
+    def process(self):
         """ Process Diagnostics or Procediments data. """
-        self.df = self.unify_missing_values()
-        self.df = self.fix_inconsistencies()
+        self.df = self.unify_missing()
+        self.df = self._fix_inconsistencies()
         self.df = self.cast_columns()
         
         return self.df

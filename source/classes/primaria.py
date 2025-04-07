@@ -30,10 +30,9 @@ class Primaria(CommonData):
 
     def process_df(self):
         """ Function to process Primaria data."""
-        self.df = self.unify_missing_values()
+        self.df = self.unify_missing()
         self.df = self.cast_columns()
         self.df = self._rename_columns()
         self.df = self._correct_cim_values()
-        self.df = self.df.sort_values("codi_p")
 
         return self.df
