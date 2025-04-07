@@ -1,7 +1,9 @@
 # Class for the Lab tables from PADRIS
 from classes.common import CommonData
 from lab_processing.clean_lab import *
+from lab_processing.filter_lab import *
 from lab_processing.patterns import *
+from lab_processing.convert import conversion_factors
 
 
 class Lab(CommonData):
@@ -42,5 +44,13 @@ class Lab(CommonData):
         self.df = standardize_peticio_id(self.df) # Standardize peticio_id
         self.df = self._prepare_lab_data()
         self.df = self.cast_columns()
+
+        return self.df
+    
+    def filter_lab(self, conversion):
+        """ Filter lab data based on codi_prova from the conversion file.  And unify the units. """
+        self.df = filter_lab_codi(self.df, conversion) # Filter the interesting tests with the conversion file 
+        self.df = convert_reference_unit(self.df, conversion) # Convert to reference unit
+        self.df = prepare_lab_unified(self.df) # Prepare the dataframe
 
         return self.df

@@ -43,7 +43,7 @@ def convert_reference_unit(df, conversion):
 
     return merged_df
 
-def prepare_lab(df):
+def prepare_lab_unified(df):
     """ Prepare the lab data to be output. """
     # Select relevant columns
     df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']]
