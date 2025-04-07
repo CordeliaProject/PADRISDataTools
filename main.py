@@ -1,9 +1,10 @@
 import sys
 import pandas as pd
 import os
-from processing import process_dataframe
-from utils.column_casts import column_casts
-from utils.valid_entities import VALID_ENTITIES
+import time
+from source.processing import process_dataframe
+from source.utils.column_casts import column_casts
+from source.utils.valid_entities import VALID_ENTITIES
 
 def main():
     """Main function to prepare PADRIS data based on entity type."""
@@ -31,8 +32,15 @@ def main():
         print(f"⚠️ '{entity}' is not a recognized entity.")
         sys.exit(1)
 
+    ### DATAFRAME PROCESSING ###
     else:
         if entity == 'Laboratori':
             process_dataframe(df, outpath, entity, column_casts, lab_option)
         else:
             process_dataframe(df, outpath, entity, column_casts)
+
+    
+if __name__ == "__main__":
+    start_time = time.time()
+    main()
+    print("--- %s seconds ---" % (time.time() - start_time))
