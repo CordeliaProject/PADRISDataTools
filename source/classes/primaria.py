@@ -28,7 +28,7 @@ class Primaria(CommonData):
         
         return self.df
 
-    def process_df(self):
+    def process(self):
         """ Function to process Primaria data."""
         self.df = self.unify_missing()
         self.df = self.cast_columns()
