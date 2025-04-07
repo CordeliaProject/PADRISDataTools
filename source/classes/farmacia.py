@@ -1,5 +1,5 @@
 # Class for the Farmacia tables from PADRIS
-from classes.common import CommonData
+from source.classes.common import CommonData
 
 
 class Farmacia(CommonData):

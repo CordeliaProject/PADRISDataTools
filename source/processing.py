@@ -1,19 +1,19 @@
 
-from classes.assegurats import Assegurats
-from classes.cmbd import Episodis, DiagnosticsProcediments
-from classes.lab import Lab
-from classes.farmacia import Farmacia
-from classes.primaria import Primaria
+from source.classes.assegurats import Assegurats
+from source.classes.cmbd import Episodis, DiagnosticsProcediments
+from source.classes.lab import Lab
+from source.classes.farmacia import Farmacia
+from source.classes.primaria import Primaria
 
 import pandas as pd
 
 def generate_report(df, entity, report_path):
     with open(report_path, "w") as f:
-            f.write(f"📄 Report for entity: {entity}\n")
+            f.write(f"Report for entity: {entity}\n")
             f.write("-"*50 + "\n")
             f.write(f"Rows after processing: {len(df)}\n\n")
 
-            f.write("🔍 Missing values per column (after processing):\n")
+            f.write("Missing values per column (after processing):\n")
             na_counts = df.isna().sum()
             total_rows = len(df)
             for col, na in na_counts.items():

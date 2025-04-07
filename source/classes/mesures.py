@@ -1,5 +1,5 @@
 # Class for the Mesures tables from PADRIS
-from classes.common import CommonData
+from source.classes.common import CommonData
 import pandas as pd
 
 class Measures(CommonData):

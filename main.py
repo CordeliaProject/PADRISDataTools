@@ -27,6 +27,7 @@ def main():
         sys.exit(1)
 
     try:
+        print("Reading input...")
         # Optional: validate file format early
         df = pd.read_csv(inpath, sep="|", low_memory=False)
     except Exception as e:
@@ -39,6 +40,7 @@ def main():
 
     ### DATAFRAME PROCESSING ###
     else:
+        print("Processing dataframe:")
         if entity == 'Laboratori':
             process_dataframe(df, outpath, entity, column_casts, lab_option, report = report)
         else:

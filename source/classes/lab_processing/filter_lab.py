@@ -1,6 +1,6 @@
 ################################################
 # Functions to filter lab data
-from convert import conversion_factors
+from source.classes.lab_processing.convert import conversion_factors
 import pandas as pd
 
 def filter_lab_codi(df, conversion):
@@ -11,7 +11,7 @@ def filter_lab_codi(df, conversion):
 
     return df
 
-def convert_reference_unit(df, conversion):
+def convert_reference_unit(df, conversion, conversion_factors):
     """ Convert units to the reference unit."""
 
     df = df.copy()

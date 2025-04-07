@@ -1,9 +1,8 @@
 # Class for the Lab tables from PADRIS
-from classes.common import CommonData
-from lab_processing.clean_lab import *
-from lab_processing.filter_lab import *
-from lab_processing.patterns import *
-from lab_processing.convert import conversion_factors
+from source.classes.common import CommonData
+from source.classes.lab_processing.clean_lab import *
+from source.classes.lab_processing.filter_lab import *
+from source.classes.lab_processing.patterns import *
 
 
 class Lab(CommonData):
