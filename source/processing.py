@@ -4,6 +4,7 @@ from source.classes.cmbd import Episodis, DiagnosticsProcediments
 from source.classes.lab import Lab
 from source.classes.farmacia import Farmacia
 from source.classes.primaria import Primaria
+from source.classes.mesures import Mesures
 
 import pandas as pd
 
@@ -53,8 +54,8 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, repo
         data_processor = Farmacia(df, column_casts['Farmacia'])
     elif entity == 'Primaria':
         data_processor = Primaria(df, column_casts['Primaria'])
-    else:
-        raise ValueError(f"Unknown entity type: {entity}")
+    # elif entity == 'Mesures':
+     #   data_processor = Mesures(df, column_casts['Mesures'], ranges, codis) # FIX
 
     # Process the dataframe and save it to the output path
     if entity == 'Laboratori' and lab_option == 'filter':

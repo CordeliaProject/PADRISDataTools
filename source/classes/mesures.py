@@ -2,7 +2,7 @@
 from source.classes.common import CommonData
 import pandas as pd
 
-class Measures(CommonData):
+class Mesures(CommonData):
     """
     Processes measurement-related data from the PADRIS dataset.
     Includes filtering by relevant codes and acceptable value ranges.
