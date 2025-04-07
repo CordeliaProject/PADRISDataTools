@@ -29,7 +29,7 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None):
     elif entity == 'Procediments':
         episodis_small= Episodis(df, column_casts).process_df()[['codi_p', 'episodi_id', 'any_referencia']]
         data_processor = DiagnosticsProcediments(df, column_casts['Procediments'], entity, episodis_small)
-    elif entity == 'Lab':
+    elif entity == 'Laboratori':
         data_processor = Lab(df, column_casts)
     elif entity == 'Farmacia':
         data_processor = Farmacia(df, column_casts['Farmacia'])
@@ -39,7 +39,7 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None):
         raise ValueError(f"Unknown entity type: {entity}")
 
     # Process the dataframe and save it to the output path
-    if entity == 'Lab' and lab_option == 'filter':
+    if entity == 'Laboratori' and lab_option == 'filter':
             processed_df = data_processor.filter_lab()
     else:
         processed_df = data_processor.process()
