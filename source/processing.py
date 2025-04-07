@@ -3,6 +3,7 @@ from classes.assegurats import Assegurats
 from classes.cmbd import Episodis, DiagnosticsProcediments
 from classes.lab import Lab
 from classes.farmacia import Farmacia
+from classes.primaria import Primaria
 
 import pandas as pd
 
@@ -22,16 +23,21 @@ def process_dataframe(inpath, outpath, entity, column_casts):
 
     # Process the dataframe based on the entity type
     if entity == 'Assegurats':
-        data_processor = Assegurats(df, column_casts)
+        data_processor = Assegurats(df, column_casts['Assegurats'])
     elif entity == 'Episodis':
-        data_processor = Episodis(df, column_casts)
-    elif entity in ['Diagnostics', 'Procediments']:
+        data_processor = Episodis(df, column_casts['Episodis'])
+    elif entity == 'Diagnostics':
         episodis_small= Episodis(df, column_casts).process_df()[['codi_p', 'episodi_id', 'any_referencia']]
-        data_processor = DiagnosticsProcediments(df, column_casts, entity, episodis_small)
+        data_processor = DiagnosticsProcediments(df, column_casts['Diagnostics'], entity, episodis_small)
+    elif entity == 'Procediments':
+        episodis_small= Episodis(df, column_casts).process_df()[['codi_p', 'episodi_id', 'any_referencia']]
+        data_processor = DiagnosticsProcediments(df, column_casts['Procediments'], entity, episodis_small)
     elif entity == 'Lab':
         data_processor = Lab(df, column_casts)
     elif entity == 'Farmacia':
-        data_processor = Farmacia(df, column_casts)
+        data_processor = Farmacia(df, column_casts['Farmacia'])
+    elif entity == 'Primaria':
+        data_processor = Primaria(df, column_casts['Primaria'])
     else:
         raise ValueError(f"Unknown entity type: {entity}")
 
