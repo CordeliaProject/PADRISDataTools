@@ -1,0 +1,57 @@
+################################################
+# Functions to filter lab data
+from convert import conversion_factors
+import pandas as pd
+
+def filter_lab_codi(df, conversion):
+    """ Filter lab data based on codi_prova from the conversion file. """
+    df = df.copy()
+
+    df = df[df['codi_prova'].isin(list(conversion['codi_prova'].values))]
+
+    return df
+
+def convert_reference_unit(df, conversion):
+    """ Convert units to the reference unit."""
+
+    df = df.copy()
+
+    df.rename(columns = {'clean_unit': 'from_unit'}, inplace=True) # Rename the clean_unit column to from_unit
+
+    # Add the reference unit to the lab dataframe
+    conversion_short = conversion[['codi_prova', 'to_unit']].drop_duplicates()
+    df.loc[:, 'to_unit'] = df['codi_prova'].map(conversion_short.set_index('codi_prova')['to_unit'])
+
+    # Filter to get only numeric results and convert the data type
+    df = df.copy()
+    df = df[df['num_type'] == "n1"]
+    df.loc[:, 'clean_result'] = pd.to_numeric(df['clean_result'], errors='coerce')
+    
+    # Merge the conversion dataframe to get the conversion factors
+    merged_df = df.merge(conversion, on=['codi_prova', 'from_unit', 'to_unit'], how='left')
+
+    # 1. Add factor when from_unit is equal to to_unit
+    merged_df.loc[merged_df['from_unit'] == merged_df['to_unit'], 'factor'] = 1
+
+    # 2. Add factor when it is not in the conversion file but the factor is in the conversion factors dict
+    merged_df.loc[merged_df['factor'].isna(), 'factor'] = merged_df.apply(
+            lambda row: conversion_factors.get((row['from_unit'], row['to_unit']), 1), axis=1
+        )
+
+    # FINAL: Convert the result using the factor
+    merged_df['converted_result'] = (merged_df['clean_result'] * merged_df['factor']).round(2)
+
+    return merged_df
+
+def prepare_lab(df):
+    """ Prepare the lab data to be output. """
+    # Select relevant columns
+    df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']]
+
+    # If there is no unit, converted_result is empty
+    df.loc[df['from_unit'].isna(),'converted_result'] = pd.NA
+    
+    #Rename columns
+    df.rename(columns = {'from_unit': 'unit', 'to_unit': 'converted_unit'}, inplace=True)
+
+    return df
