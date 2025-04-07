@@ -1,4 +1,4 @@
-from classes.common import CommonData
+
 from classes.assegurats import Assegurats
 from classes.cmbd import Episodis, DiagnosticsProcediments
 from classes.lab import Lab
@@ -7,7 +7,7 @@ from classes.primaria import Primaria
 
 import pandas as pd
 
-def process_dataframe(inpath, outpath, entity, column_casts):
+def process_dataframe(df, outpath, entity, column_casts, lab_option = None):
     """
     Function to process a dataframe based on the entity type.
     
@@ -17,9 +17,6 @@ def process_dataframe(inpath, outpath, entity, column_casts):
         entity (str): Type of entity ('Assegurats', 'Episodis', 'Diagnostics', 'Procediments', 'Lab', 'Farmacia').
         column_casts (dict): Dictionary of columns and their target data types.
     """
-
-    # Read the input file
-    df = pd.read_csv(inpath, low_memory=False)
 
     # Process the dataframe based on the entity type
     if entity == 'Assegurats':
@@ -42,5 +39,9 @@ def process_dataframe(inpath, outpath, entity, column_casts):
         raise ValueError(f"Unknown entity type: {entity}")
 
     # Process the dataframe and save it to the output path
-    processed_df = data_processor.process()
+    if entity == 'Lab' and lab_option == 'filter':
+            processed_df = data_processor.filter_lab()
+    else:
+        processed_df = data_processor.process()
+
     processed_df.to_csv(outpath, index=False, sep = "|")  # Save the processed dataframe to CSV
