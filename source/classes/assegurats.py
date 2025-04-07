@@ -8,7 +8,7 @@ class Assegurats(CommonData):
 
     def __init__(self, df, column_casts):
         """ Constructor for the Assegurats class. """
-        super().__init__(df, column_casts)  # Pass outpath to parent constructor
+        super().__init__(df, column_casts) 
 
 
     def _add_year_col(self, date_col):

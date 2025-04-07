@@ -25,18 +25,15 @@ class Episodis(CommonData):
 
     def process_df(self):
         """ Function to process Episodis data."""
-        # Step 1: Unify missing values
         self.df = self.unify_missing_values()
-
-        # Step 2: Convert columns to correct data type
         self.df = self.cast_columns()
 
-        # Extract reference year from data_alta
         if 'data_alta' in self.df.columns:
             self.df['any_referencia'] = pd.to_numeric(self.df['data_alta'].dt.year, errors='coerce')
 
-        # Step 3: Fix inconsistencies in episodis identifiers
         self.df = self.fix_inconsistencies()
+
+        return self.df
 
 
 class DiagnosticsProcediments(CommonData):
@@ -115,4 +112,5 @@ class DiagnosticsProcediments(CommonData):
         self.df = self.unify_missing_values()
         self.df = self.fix_inconsistencies()
         self.df = self.cast_columns()
+        
         return self.df
