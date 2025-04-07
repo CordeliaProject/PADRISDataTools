@@ -10,8 +10,13 @@ def main():
     """Main function to prepare PADRIS data based on entity type."""
     args = sys.argv[1:]
 
+    # Support an optional `--report` flag at the end
+    report = '--report' in args
+    if report:
+        args.remove('--report')
+
     if len(args) not in [3, 4]:
-        print("Usage: python3 main.py <inpath> <outpath> <entity> [lab_option]")
+        print("Usage: python3 main.py <inpath> <outpath> <entity> [lab_option] [--report]")
         sys.exit(1)
 
     inpath, outpath, entity = args[0], args[1], args[2]
@@ -35,9 +40,9 @@ def main():
     ### DATAFRAME PROCESSING ###
     else:
         if entity == 'Laboratori':
-            process_dataframe(df, outpath, entity, column_casts, lab_option)
+            process_dataframe(df, outpath, entity, column_casts, lab_option, report = report)
         else:
-            process_dataframe(df, outpath, entity, column_casts)
+            process_dataframe(df, outpath, entity, column_casts, report = report)
 
     
 if __name__ == "__main__":

@@ -7,7 +7,24 @@ from classes.primaria import Primaria
 
 import pandas as pd
 
-def process_dataframe(df, outpath, entity, column_casts, lab_option = None):
+def generate_report(df, entity, report_path):
+    with open(report_path, "w") as f:
+            f.write(f"📄 Report for entity: {entity}\n")
+            f.write("-"*50 + "\n")
+            f.write(f"Rows after processing: {len(df)}\n\n")
+
+            f.write("🔍 Missing values per column (after processing):\n")
+            na_counts = df.isna().sum()
+            total_rows = len(df)
+            for col, na in na_counts.items():
+                pct = (na / total_rows) * 100 if total_rows else 0
+                f.write(f"  - {col}: {na} ({pct:.2f}%)\n")
+
+            f.write("\n🧪 Data types:\n")
+            for col, dtype in df.dtypes.items():
+                f.write(f"  - {col}: {dtype}\n")
+
+def process_dataframe(df, outpath, entity, column_casts, lab_option = None, report = False):
     """
     Function to process a dataframe based on the entity type.
     
@@ -16,6 +33,7 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None):
         outpath (str): Path to the output file.
         entity (str): Type of entity ('Assegurats', 'Episodis', 'Diagnostics', 'Procediments', 'Lab', 'Farmacia').
         column_casts (dict): Dictionary of columns and their target data types.
+        lab_option (str): If entity = 'Laboratori', lab_option can be 'process' or 'filter'.
     """
 
     # Process the dataframe based on the entity type
@@ -40,8 +58,12 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None):
 
     # Process the dataframe and save it to the output path
     if entity == 'Laboratori' and lab_option == 'filter':
-            processed_df = data_processor.filter_lab()
+        processed_df = data_processor.filter_lab()
     else:
         processed_df = data_processor.process()
+
+    if report: # If report option is true, print report file.
+        report_path = outpath.replace(".csv", "_report.txt")
+        generate_report(processed_df, entity, report_path)
 
     processed_df.to_csv(outpath, index=False, sep = "|")  # Save the processed dataframe to CSV

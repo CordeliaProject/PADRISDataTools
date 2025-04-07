@@ -6,5 +6,6 @@ VALID_ENTITIES = {
     'Procediments',
     'Laboratori',
     'Primaria',
-    'Mesures'
+    'Mesures',
+    'Assegurats'
 }
