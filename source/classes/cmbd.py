@@ -25,7 +25,7 @@ class Episodis(CommonData):
 
     def process(self):
         """ Function to process Episodis data."""
-        self.df = self.unify_missing_values()
+        self.df = self.unify_missing()
         self.df = self.cast_columns()
 
         if 'data_alta' in self.df.columns:

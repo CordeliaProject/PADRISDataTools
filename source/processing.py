@@ -33,7 +33,7 @@ def generate_report(df, entity, report_path, preprocessing_df):
         for col, dtype in df.dtypes.items():
             f.write(f"  - {col}: {dtype}\n")
 
-def process_dataframe(df, outpath, entity, column_casts, lab_option = None, report = False):
+def process_dataframe(df, outpath, entity, column_casts, lab_option = None, episodis = None, report = False):
     """
     Function to process a dataframe based on the entity type.
     
@@ -42,8 +42,12 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, repo
         outpath (str): Path to the output file.
         entity (str): Type of entity ('Assegurats', 'Episodis', 'Diagnostics', 'Procediments', 'Lab', 'Farmacia').
         column_casts (dict): Dictionary of columns and their target data types.
-        lab_option (str): If entity = 'Laboratori', lab_option can be 'process' or 'filter'.
+        episodis (str): Path to episodis file whn option is Diagnostics or Procediments.
+        lab_option (str): Used only if entity == 'Laboratori'. If set to 'filter', applies filtering before processing.
     """
+    # In case of Diagnostics or Procediments, check if episodis exist.
+    if entity in ['Diagnostics', 'Procediments'] and episodis is None:
+        raise ValueError(f"Entity '{entity}' requires an episodis file.")
 
     # Process the dataframe based on the entity type
     if entity == 'Assegurats':
@@ -51,10 +55,10 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, repo
     elif entity == 'Episodis':
         data_processor = Episodis(df, column_casts['Episodis'])
     elif entity == 'Diagnostics':
-        episodis_small= Episodis(df, column_casts).process_df()[['codi_p', 'episodi_id', 'any_referencia']]
+        episodis_small= pd.read_csv(episodis, sep = "|", usecols = ['codi_p', 'episodi_id', 'any_referencia'])
         data_processor = DiagnosticsProcediments(df, column_casts['Diagnostics'], entity, episodis_small)
     elif entity == 'Procediments':
-        episodis_small= Episodis(df, column_casts).process_df()[['codi_p', 'episodi_id', 'any_referencia']]
+        episodis_small= pd.read_csv(episodis, sep = "|", usecols = ['codi_p', 'episodi_id', 'any_referencia'])
         data_processor = DiagnosticsProcediments(df, column_casts['Procediments'], entity, episodis_small)
     elif entity == 'Laboratori':
         data_processor = Lab(df, column_casts)

@@ -15,12 +15,23 @@ def main():
     if report:
         args.remove('--report')
 
-    if len(args) not in [3, 4]:
-        print("Usage: python3 main.py <inpath> <outpath> <entity> [lab_option] [--report]")
+    if len(args) not in [3, 4, 5]:
+        print("Usage: python3 main.py <inpath> <outpath> <entity> [lab_option|episodis] [--report]")
         sys.exit(1)
 
     inpath, outpath, entity = args[0], args[1], args[2]
-    lab_option = args[3] if len(args) == 4 else None
+
+    lab_option = None
+    episodis = None
+
+    if len(args) == 4:
+        if entity == 'Laboratori':
+            lab_option = args[3]
+        elif entity in ['Diagnostics', 'Procediments']:
+            episodis = args[3]
+    elif len(args) == 5:
+        lab_option = args[3]
+        episodis = args[4]
 
     if not os.path.exists(inpath):
         print(f"❌ Input path '{inpath}' does not exist.")
@@ -28,25 +39,26 @@ def main():
 
     try:
         print("Reading input...")
-        # Optional: validate file format early
         df = pd.read_csv(inpath, sep="|", low_memory=False)
     except Exception as e:
         raise ValueError("⚠️ Failed to read input file. Ensure it's a CSV with '|' separator.") from e
 
-    # Optional: add some validation logic for the entity name here
     if entity not in VALID_ENTITIES:
         print(f"⚠️ '{entity}' is not a recognized entity.")
         sys.exit(1)
 
     ### DATAFRAME PROCESSING ###
-    else:
-        print("Processing dataframe...")
-        if entity == 'Laboratori':
-            process_dataframe(df, outpath, entity, column_casts, lab_option, report = report)
-        else:
-            process_dataframe(df, outpath, entity, column_casts, report = report)
-
+    print("Processing dataframe...")
     
+    process_dataframe(
+        df,
+        outpath,
+        entity,
+        column_casts,
+        lab_option=lab_option,
+        episodis=episodis,
+        report=report )
+
 if __name__ == "__main__":
     start_time = time.time()
     main()
