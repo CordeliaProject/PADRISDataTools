@@ -5,6 +5,8 @@ from source.classes.lab import Lab
 from source.classes.farmacia import Farmacia
 from source.classes.primaria import Primaria
 from source.classes.mesures import Mesures
+from source.utils.ranges import *
+from source.utils.codis import codi_mesures
 
 import pandas as pd
 
@@ -54,8 +56,8 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, repo
         data_processor = Farmacia(df, column_casts['Farmacia'])
     elif entity == 'Primaria':
         data_processor = Primaria(df, column_casts['Primaria'])
-    # elif entity == 'Mesures':
-     #   data_processor = Mesures(df, column_casts['Mesures'], ranges, codis) # FIX
+    elif entity == 'Mesures':
+       data_processor = Mesures(df, column_casts['Mesures'], ranges, codi_mesures)
 
     # Process the dataframe and save it to the output path
     if entity == 'Laboratori' and lab_option == 'filter':

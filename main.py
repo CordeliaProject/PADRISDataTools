@@ -34,7 +34,6 @@ def main():
         raise ValueError("⚠️ Failed to read input file. Ensure it's a CSV with '|' separator.") from e
 
     # Optional: add some validation logic for the entity name here
-    print(VALID_ENTITIES)
     if entity not in VALID_ENTITIES:
         print(f"⚠️ '{entity}' is not a recognized entity.")
         sys.exit(1)
