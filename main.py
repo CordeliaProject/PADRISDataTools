@@ -50,4 +50,4 @@ def main():
 if __name__ == "__main__":
     start_time = time.time()
     main()
-    print("--- %s.2f seconds ---" % (time.time() - start_time))
+    print(f"--- {time.time() - start_time:.2f} seconds ---")
