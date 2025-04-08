@@ -5,8 +5,7 @@ from source.classes.lab import Lab
 from source.classes.farmacia import Farmacia
 from source.classes.primaria import Primaria
 from source.classes.mesures import Mesures
-from source.utils.ranges import *
-from source.utils.codis import codi_mesures
+from source.utils.mesures_info import *
 
 import pandas as pd
 

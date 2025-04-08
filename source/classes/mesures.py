@@ -1,6 +1,6 @@
 # Class for the Mesures tables from PADRIS
 from source.classes.common import CommonData
-from source.utils.ranges import unitats 
+from source.utils.mesures_info import unitats 
 import pandas as pd
 
 class Mesures(CommonData):
