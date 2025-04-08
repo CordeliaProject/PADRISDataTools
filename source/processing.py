@@ -10,22 +10,23 @@ from source.utils.codis import codi_mesures
 
 import pandas as pd
 
-def generate_report(df, entity, report_path):
-    with open(report_path, "w") as f:
-            f.write(f"Report for entity: {entity}\n")
-            f.write("-"*50 + "\n")
-            f.write(f"Rows after processing: {len(df)}\n\n")
+def generate_report(df, entity, report_path, preprocessing_n):
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write(f"Report for entity: {entity}\n")
+        f.write("-"*50 + "\n")
+        f.write(f"Rows before processing: {preprocessing_n}\n")
+        f.write(f"Rows after processing: {len(df)}\n\n")
 
-            f.write("Missing values per column (after processing):\n")
-            na_counts = df.isna().sum()
-            total_rows = len(df)
-            for col, na in na_counts.items():
-                pct = (na / total_rows) * 100 if total_rows else 0
-                f.write(f"  - {col}: {na} ({pct:.2f}%)\n")
+        f.write("Missing values per column (after processing):\n")
+        na_counts = df.isna().sum()
+        total_rows = len(df)
+        for col, na in na_counts.items():
+            pct = (na / total_rows) * 100 if total_rows else 0
+            f.write(f"  - {col}: {na} ({pct:.2f}%)\n")
 
-            f.write("\n🧪 Data types:\n")
-            for col, dtype in df.dtypes.items():
-                f.write(f"  - {col}: {dtype}\n")
+        f.write("\nData types:\n")  # Now works with utf-8!
+        for col, dtype in df.dtypes.items():
+            f.write(f"  - {col}: {dtype}\n")
 
 def process_dataframe(df, outpath, entity, column_casts, lab_option = None, report = False):
     """
@@ -59,6 +60,9 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, repo
     elif entity == 'Mesures':
        data_processor = Mesures(df, column_casts['Mesures'], ranges, codi_mesures)
 
+    # Count how many rows do we have
+    preprocessing_n = len(data_processor.df)
+
     # Process the dataframe and save it to the output path
     if entity == 'Laboratori' and lab_option == 'filter':
         processed_df = data_processor.filter_lab()
@@ -67,6 +71,6 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, repo
 
     if report: # If report option is true, print report file.
         report_path = outpath.replace(".csv", "_report.txt")
-        generate_report(processed_df, entity, report_path)
+        generate_report(processed_df, entity, report_path, preprocessing_n)
 
     processed_df.to_csv(outpath, index=False, sep = "|")  # Save the processed dataframe to CSV

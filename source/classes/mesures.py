@@ -32,10 +32,17 @@ class Mesures(CommonData):
         codi = row['Prova_codi']
         value = row['Prova_resultat']
         valid_range = ranges.get(codi)
-        if pd.isna(value):  # Safety check for NaNs
+
+        try:
+            if pd.isna(value):
+                return False
+            value = float(value)
+            if valid_range:
+                return valid_range[0] <= value <= valid_range[1]
+        except (ValueError, TypeError):
+            # You can log or print a warning here if needed
             return False
-        if valid_range:
-            return valid_range[0] <= value <= valid_range[1]
+
         return False
 
     def _apply_range_filter(self):

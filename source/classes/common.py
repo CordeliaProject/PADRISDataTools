@@ -18,13 +18,15 @@ class CommonData:
         return self.df
     
     def cast_columns(self):
-        """ Safely cast dataframe columns to specified types. """
+        """Safely cast dataframe columns to specified types."""
         for col, dtype in self.column_casts.items():
             if col in self.df.columns:  # Check if column exists
                 try:
                     if dtype == 'datetime64[ns]':  # Special case for dates
                         self.df[col] = pd.to_datetime(self.df[col], errors='coerce')
-                        self.df[col] = self.df[col].dt.tz_localize(None)  # Remove timezone (force naive)
+                        self.df[col] = self.df[col].dt.tz_localize(None)  # Remove timezone
+                    elif dtype in ['float', 'float64']:
+                        self.df[col] = pd.to_numeric(self.df[col], errors='coerce')
                     else:
                         self.df[col] = self.df[col].astype(dtype)
                 except Exception as e:
@@ -32,6 +34,5 @@ class CommonData:
             else:
                 print(f"Warning: Column '{col}' not found in the DataFrame.")
         return self.df
-
         
         

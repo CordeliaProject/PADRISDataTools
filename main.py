@@ -40,7 +40,7 @@ def main():
 
     ### DATAFRAME PROCESSING ###
     else:
-        print("Processing dataframe:")
+        print("Processing dataframe...")
         if entity == 'Laboratori':
             process_dataframe(df, outpath, entity, column_casts, lab_option, report = report)
         else:
@@ -50,4 +50,4 @@ def main():
 if __name__ == "__main__":
     start_time = time.time()
     main()
-    print("--- %s seconds ---" % (time.time() - start_time))
+    print("--- %s.2f seconds ---" % (time.time() - start_time))
