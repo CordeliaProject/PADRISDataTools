@@ -1,5 +1,6 @@
 # Class for the Mesures tables from PADRIS
 from source.classes.common import CommonData
+from source.utils.ranges import unitats 
 import pandas as pd
 
 class Mesures(CommonData):
@@ -49,12 +50,18 @@ class Mesures(CommonData):
         """Filter rows where the measurement value is within allowed range."""
         self.df = self.df[self.df.apply(self._filter_by_range, axis=1, args=(self.ranges,))]
 
+    def _add_unit(self, unitats_mesures):
+        """ Add unit from the codis file to the dataframe"""
+        self.df['unitat'] = self.df['Prova_codi'].map(unitats_mesures)
+        return self.df
+
     def process(self):
         """Run full processing pipeline for Measures data."""
         self.df = self.unify_missing()
         self.df = self.cast_columns()
         self._filter_by_codes()
         self._apply_range_filter()
+        self._add_unit(unitats)
         self.df.rename(columns={"Prova_data": "data", "Prova_resultat": "resultat", 
                                 "Prova_codi": "codi_prova", "Prova_descripcio":"prova"}, inplace=True)
 
