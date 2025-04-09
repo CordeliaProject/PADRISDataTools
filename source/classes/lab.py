@@ -3,7 +3,7 @@ from source.classes.common import CommonData
 from source.classes.lab_processing.clean_lab import *
 from source.classes.lab_processing.filter_lab import *
 from source.classes.lab_processing.patterns import *
-
+import warnings
 
 class Lab(CommonData):
     """
@@ -29,6 +29,8 @@ class Lab(CommonData):
 
     def process(self):
         """ Function to process Assegurats data."""
+        warnings.filterwarnings("ignore", category=UserWarning, message=".*match groups.*") # Ignore warnings.
+
         self.df = self.unify_missing() # Unify missing values to be pd.NA
         self.df = self._fill_missing() # Fill missing values in the lab_resultat col with nocalc
 

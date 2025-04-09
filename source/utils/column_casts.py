@@ -36,7 +36,7 @@ column_casts = {
         'Prova_resultat': 'float',
         'Prova_data': 'datetime64[ns]',
 },
-    'Lab': { 
+    'Laboratori': { 
         'any': pd.Int64Dtype(),
         'num_type': 'category',
         'data': 'datetime64[ns]',

@@ -61,7 +61,7 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, epis
         episodis_small= pd.read_csv(episodis, sep = "|", usecols = ['codi_p', 'episodi_id', 'any_referencia'])
         data_processor = DiagnosticsProcediments(df, column_casts['Procediments'], entity, episodis_small)
     elif entity == 'Laboratori':
-        data_processor = Lab(df, column_casts)
+        data_processor = Lab(df, column_casts['Laboratori'])
     elif entity == 'Farmacia':
         data_processor = Farmacia(df, column_casts['Farmacia'])
     elif entity == 'Primaria':

@@ -173,11 +173,6 @@ def handle_extra_variables(df, patterns_common_words, numeric_patterns):
     # Clean up stray characters from exponents
     #df['clean_result'] = df['clean_result'].str.replace(r"[\*\^]", "", regex=True)
 
-    # Reporting
-    flagged_records = df['comentari'].notna().sum()
-    flagged_percent = flagged_records / len(df) * 100 if len(df) > 0 else 0
-    print(f"{flagged_records} records flagged ({flagged_percent:.2f}% of total).")
-
     return df
 
 # -----------------------------------------
@@ -200,20 +195,6 @@ def classify_numeric_results(df,  numeric_patterns):
 # ----- Step 4: Standardize numeric results based in classification
 def standardize_numeric_results(df):
     """ Standardizes the lab data by cleaning the result values and assigning scale types."""
-    def report_num_type(df, num_type):
-        """ Function to report the number and percentage of records assigned to a given scale type"""
-        # Filter records by scale type
-        scale_records = df[df['num_type'] == num_type]
-        
-        # Calculate the number of records
-        scale_records_n = len(scale_records)
-        
-        # Calculate the percentage of total records
-        total_n_records = len(df)
-        scale_records_percent = (scale_records_n / total_n_records * 100) if total_n_records else np.nan
-        
-        # Report the results
-        print(f"{scale_records_n} result records of scale type '{num_type}' ({scale_records_percent:.2f}%).")
 
     # Step 1: Harmonize n1 results.
     mask_n1 = (df['num_type'] == 'n1') # Create a mask for the conditions
@@ -249,11 +230,6 @@ def standardize_numeric_results(df):
     # Drop temporary columns 'first_number' and 'second_number'
     df = df.drop(columns=['first_number', 'second_number'])
 
-    
-    # Reporting numbers of records assigned to each number type
-    for num_type in ['n1', 'n2', 'n3', 'n4']:
-        report_num_type(df, num_type)
-
     return df
 
 
@@ -262,7 +238,7 @@ def standardize_numeric_results(df):
 def standardize_unit(df, unit_patterns):
     """ Standardizes the format of units in the lab data."""
     df = df.copy()
-    total_n_records = len(df)
+
     # Ensure "clean_unit" column exists.
     if "clean_unit" not in df.columns:
         df["clean_unit"] = df["unitat_mesura"]
@@ -273,10 +249,6 @@ def standardize_unit(df, unit_patterns):
         mask = (df["clean_unit"].str.contains(pattern, na = False, flags = re.IGNORECASE, regex = True) & df['comentari_unitat'].isna()) # Filter dataframe to only include rows where the pattern is found.
         df.loc[mask, "clean_unit"] = unit # Replace the unit with the standardized unit.
         df.loc[mask, "comentari_unitat"] = "done" # Add a comment to the 'comentari_unitat' column.
-
-    n_units_standardized = len(df[df['comentari_unitat'] == "done"]) # Calculate the number of rows with standardized units.
-    unit_records_percent = (n_units_standardized / total_n_records * 100) if total_n_records else np.nan # Calculate the percentage of total records.
-    print(f"{n_units_standardized} rows with standardized units ({unit_records_percent:.2f}%).")
 
     return df
 
