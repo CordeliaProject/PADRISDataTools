@@ -9,13 +9,13 @@ The PADRIS program (El Programa d'Analítica de Dades per a la Recerca i la Inno
 
 To install PADRISDataTools, follow the followingg steps:
 
-    1. Clone this repository to your local machine:
+1. Clone this repository to your local machine:
 
 ```
 git clone https://github.com/CordeliaProject/PADRISDataTools.git
 ```
 
-    2. Install the required dependencies, taking into account that  `python --version == 3.11.9`:
+2. Install the required dependencies, taking into account that  `python --version == 3.11.9`:
 ```
 pip install -r requirements.txt
 ```
