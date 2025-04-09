@@ -44,6 +44,7 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, lab_
         column_casts (dict): Dictionary of columns and their target data types.
         episodis (str): Path to episodis file whn option is Diagnostics or Procediments.
         lab_option (str): Used only if entity == 'Laboratori'. If set to 'filter', applies filtering before processing.
+        lab_conversion (str): Used only if entity == 'Laboratori'. If set to 'filter' add path to conversion file.
     """
     # In case of Diagnostics or Procediments, check if episodis exist.
     if entity in ['Diagnostics', 'Procediments'] and episodis is None:
