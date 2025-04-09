@@ -41,6 +41,12 @@ column_casts = {
         'num_type': 'category',
         'data': 'datetime64[ns]',
 },
+    'Filtered_laboratori': { 
+        'any': pd.Int64Dtype(),
+        'data': 'datetime64[ns]',
+        'clean_result': 'float',
+        'converted_result': 'float',
+},
     'Primaria': { 
         'any_problema_salut': pd.Int64Dtype(),
         'data_problema_salut': 'datetime64[ns]',

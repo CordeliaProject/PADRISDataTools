@@ -3,6 +3,19 @@
 from source.classes.lab_processing.convert import conversion_factors
 import pandas as pd
 
+def read_conversion_file(lab_conversion):
+    """ Read file with lab variables conversion."""
+    if not lab_conversion:
+        print("No lab conversion file provided.")
+        return None
+
+    try:
+        conversion = pd.read_csv(lab_conversion, sep="|")
+        return conversion
+    except FileNotFoundError:
+        print(f"File not found: {lab_conversion}")
+
+
 def filter_lab_codi(df, conversion):
     """ Filter lab data based on codi_prova from the conversion file. """
     df = df.copy()
@@ -16,15 +29,13 @@ def convert_reference_unit(df, conversion, conversion_factors):
 
     df = df.copy()
 
-    df.rename(columns = {'clean_unit': 'from_unit'}, inplace=True) # Rename the clean_unit column to from_unit
+    df = df.rename(columns = {'clean_unit': 'from_unit'}) # Rename the clean_unit column to from_unit
 
     # Add the reference unit to the lab dataframe
     conversion_short = conversion[['codi_prova', 'to_unit']].drop_duplicates()
     df.loc[:, 'to_unit'] = df['codi_prova'].map(conversion_short.set_index('codi_prova')['to_unit'])
 
     # Filter to get only numeric results and convert the data type
-    df = df.copy()
-    df = df[df['num_type'] == "n1"]
     df.loc[:, 'clean_result'] = pd.to_numeric(df['clean_result'], errors='coerce')
     
     # Merge the conversion dataframe to get the conversion factors
@@ -46,12 +57,13 @@ def convert_reference_unit(df, conversion, conversion_factors):
 def prepare_lab_unified(df):
     """ Prepare the lab data to be output. """
     # Select relevant columns
-    df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']]
+    df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']].copy()
 
     # If there is no unit, converted_result is empty
     df.loc[df['from_unit'].isna(),'converted_result'] = pd.NA
     
     #Rename columns
-    df.rename(columns = {'from_unit': 'unit', 'to_unit': 'converted_unit'}, inplace=True)
+    df = df.rename(columns = {'from_unit': 'unit', 'to_unit': 'converted_unit'})
 
     return df
+

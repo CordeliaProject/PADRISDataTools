@@ -3,6 +3,7 @@ from source.classes.common import CommonData
 from source.classes.lab_processing.clean_lab import *
 from source.classes.lab_processing.filter_lab import *
 from source.classes.lab_processing.patterns import *
+from source.classes.lab_processing.convert import conversion_factors
 import warnings
 
 class Lab(CommonData):
@@ -27,6 +28,7 @@ class Lab(CommonData):
 
         return self.df
 
+
     def process(self):
         """ Function to process Assegurats data."""
         warnings.filterwarnings("ignore", category=UserWarning, message=".*match groups.*") # Ignore warnings.
@@ -48,10 +50,13 @@ class Lab(CommonData):
 
         return self.df
     
-    def filter_lab(self, conversion):
+    def filter_lab(self, lab_conversion):
         """ Filter lab data based on codi_prova from the conversion file.  And unify the units. """
+        conversion = read_conversion_file(lab_conversion) # Read the conversion file
         self.df = filter_lab_codi(self.df, conversion) # Filter the interesting tests with the conversion file 
-        self.df = convert_reference_unit(self.df, conversion) # Convert to reference unit
+        self.df = convert_reference_unit(self.df, conversion, conversion_factors) # Convert to reference unit
         self.df = prepare_lab_unified(self.df) # Prepare the dataframe
+
+        self.df = self.cast_columns()
 
         return self.df

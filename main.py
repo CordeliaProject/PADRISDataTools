@@ -16,22 +16,20 @@ def main():
         args.remove('--report')
 
     if len(args) not in [3, 4, 5]:
-        print("Usage: python3 main.py <inpath> <outpath> <entity> [lab_option|episodis] [--report]")
+        print("Usage: python3 main.py <inpath> <outpath> <entity> [lab_option|episodis] [lab_conversion] [--report]")
         sys.exit(1)
 
     inpath, outpath, entity = args[0], args[1], args[2]
 
     lab_option = None
+    lab_conversion = None
     episodis = None
 
-    if len(args) == 4:
-        if entity == 'Laboratori':
-            lab_option = args[3]
-        elif entity in ['Diagnostics', 'Procediments']:
-            episodis = args[3]
-    elif len(args) == 5:
+    if entity == 'Laboratori' and 'filter' in args:
         lab_option = args[3]
-        episodis = args[4]
+        lab_conversion =  args[4]
+    elif entity in ['Diagnostics', 'Procediments'] and len(args) == 4:
+        episodis = args[3]
 
     if not os.path.exists(inpath):
         print(f"❌ Input path '{inpath}' does not exist.")
@@ -56,6 +54,7 @@ def main():
         entity,
         column_casts,
         lab_option=lab_option,
+        lab_conversion=lab_conversion,
         episodis=episodis,
         report=report )
 

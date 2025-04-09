@@ -33,7 +33,7 @@ def generate_report(df, entity, report_path, preprocessing_df):
         for col, dtype in df.dtypes.items():
             f.write(f"  - {col}: {dtype}\n")
 
-def process_dataframe(df, outpath, entity, column_casts, lab_option = None, episodis = None, report = False):
+def process_dataframe(df, outpath, entity, column_casts, lab_option = None, lab_conversion = None, episodis = None, report = False):
     """
     Function to process a dataframe based on the entity type.
     
@@ -61,7 +61,10 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, epis
         episodis_small= pd.read_csv(episodis, sep = "|", usecols = ['codi_p', 'episodi_id', 'any_referencia'])
         data_processor = DiagnosticsProcediments(df, column_casts['Procediments'], entity, episodis_small)
     elif entity == 'Laboratori':
-        data_processor = Lab(df, column_casts['Laboratori'])
+        if lab_option == "filter":
+            data_processor = Lab(df, column_casts['Filtered_laboratori'])
+        else:
+            data_processor = Lab(df, column_casts['Laboratori'])
     elif entity == 'Farmacia':
         data_processor = Farmacia(df, column_casts['Farmacia'])
     elif entity == 'Primaria':
@@ -69,12 +72,12 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, epis
     elif entity == 'Mesures':
        data_processor = Mesures(df, column_casts['Mesures'], ranges, codi_mesures)
 
-    # Count how many rows do we have
+    # Check table before processing
     preprocessing_df = data_processor.df
 
     # Process the dataframe and save it to the output path
     if entity == 'Laboratori' and lab_option == 'filter':
-        processed_df = data_processor.filter_lab()
+        processed_df = data_processor.filter_lab(lab_conversion)
     else:
         processed_df = data_processor.process()
 

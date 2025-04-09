@@ -23,7 +23,7 @@ class CommonData:
             if col in self.df.columns:  # Check if column exists
                 try:
                     if dtype == 'datetime64[ns]':  # Special case for dates
-                        self.df[col] = pd.to_datetime(self.df[col], errors='coerce')
+                        self.df[col] = pd.to_datetime(self.df[col], errors='coerce', dayfirst=False)
                         self.df[col] = self.df[col].dt.tz_localize(None)  # Remove timezone
                     elif dtype in ['float', 'float64']:
                         self.df[col] = pd.to_numeric(self.df[col], errors='coerce')
