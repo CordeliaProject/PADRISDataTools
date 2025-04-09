@@ -43,9 +43,8 @@ class Mortalitat(CommonData):
     def process(self):
         """ Function to process Assegurats data."""
         self.df = self.unify_missing()
-        self.df = self.cast_columns()
         self.df = self._add_year_col('data_defuncio')
         self.df = self._modify_dx_columns()
         self.df = self._harmonize_diagnostics()
-        
+        self.df = self.cast_columns()
         return self.df

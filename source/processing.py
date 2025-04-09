@@ -5,6 +5,7 @@ from source.classes.lab import Lab
 from source.classes.farmacia import Farmacia
 from source.classes.primaria import Primaria
 from source.classes.mesures import Mesures
+from source.classes.mortalitat import Mortalitat
 from source.utils.mesures_info import *
 
 import pandas as pd
@@ -53,6 +54,8 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, lab_
     # Process the dataframe based on the entity type
     if entity == 'Assegurats':
         data_processor = Assegurats(df, column_casts['Assegurats'])
+    if entity == 'Mortalitat':
+        data_processor = Mortalitat(df, column_casts['Mortalitat'])
     elif entity == 'Episodis':
         data_processor = Episodis(df, column_casts['Episodis'])
     elif entity == 'Diagnostics':
