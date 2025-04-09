@@ -58,7 +58,7 @@ def remove_date_outliers(df, mortalitat):
     condition1 = (merged_df['data_defuncio'].isna()) | (merged_df['data_ingres'] < merged_df['data_defuncio'] + pd.Timedelta(days=7))
 
     # Apply the second condition: any_referencia >= anaix (cast anaix to int)
-    condition2 = merged_df['any_referencia'].astype(int) > merged_df['anaix'].astype(int)
+    condition2 = merged_df['any_referencia'].astype(int) > merged_df['birth_year']
 
     # Apply the third condition: data_ingres ha de ser abans que la data_alta
     condition3 = (merged_df['data_alta'].isna()) | (merged_df['data_ingres'] < merged_df['data_alta'])
@@ -67,6 +67,6 @@ def remove_date_outliers(df, mortalitat):
     filtered_df = merged_df[condition1 & condition2 & condition3].copy()
 
     # Drop the columns 'data_defuncio' and 'anaix'
-    filtered_df = filtered_df.drop(['data_defuncio', 'anaix'], axis=1)
+    filtered_df = filtered_df.drop(['data_defuncio', 'birth_year'], axis=1)
 
     return filtered_df
