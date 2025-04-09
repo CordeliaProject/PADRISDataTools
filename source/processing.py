@@ -41,7 +41,7 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, lab_
     Args:
         inpath (str): Path to the input file.
         outpath (str): Path to the output file.
-        entity (str): Type of entity ('Assegurats', 'Episodis', 'Diagnostics', 'Procediments', 'Lab', 'Farmacia').
+        entity (str): Type of entity ('Assegurats', 'Episodis', 'Diagnostics', 'Procediments', 'Mortalitat', 'Laboratori').
         column_casts (dict): Dictionary of columns and their target data types.
         episodis (str): Path to episodis file whn option is Diagnostics or Procediments.
         lab_option (str): Used only if entity == 'Laboratori'. If set to 'filter', applies filtering before processing.
