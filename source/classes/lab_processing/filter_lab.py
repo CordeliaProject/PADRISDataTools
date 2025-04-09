@@ -28,19 +28,19 @@ def convert_reference_unit(df, conversion, conversion_factors):
     """ Convert units to the reference unit."""
 
     df = df.copy()
-
     df = df.rename(columns = {'clean_unit': 'from_unit'}) # Rename the clean_unit column to from_unit
 
     # Add the reference unit to the lab dataframe
     conversion_short = conversion[['codi_prova', 'to_unit']].drop_duplicates()
     df.loc[:, 'to_unit'] = df['codi_prova'].map(conversion_short.set_index('codi_prova')['to_unit'])
-
+    #print(df)
     # Filter to get only numeric results and convert the data type
     df.loc[:, 'clean_result'] = pd.to_numeric(df['clean_result'], errors='coerce')
     
     # Merge the conversion dataframe to get the conversion factors
-    merged_df = df.merge(conversion, on=['codi_prova', 'from_unit', 'to_unit'], how='left')
-
+    conversion_no_group = conversion[['codi_prova', 'from_unit', 'to_unit', 'factor']]
+    merged_df = df.merge(conversion_no_group, on=['codi_prova', 'from_unit', 'to_unit'], how='left')
+  
     # 1. Add factor when from_unit is equal to to_unit
     merged_df.loc[merged_df['from_unit'] == merged_df['to_unit'], 'factor'] = 1
 
@@ -52,12 +52,19 @@ def convert_reference_unit(df, conversion, conversion_factors):
     # FINAL: Convert the result using the factor
     merged_df['converted_result'] = (merged_df['clean_result'] * merged_df['factor']).round(2)
 
-    return merged_df
+    # ADD group
+    conversion_group = conversion[['codi_prova', 'group']].drop_duplicates()
+    result_df = merged_df.merge(conversion_group, on='codi_prova', how='left')
+    
+    return result_df
 
 def prepare_lab_unified(df):
     """ Prepare the lab data to be output. """
     # Select relevant columns
-    df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']].copy()
+    if 'group' in df.columns:
+        df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit', 'group']].copy()
+    else:
+        df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']].copy()
 
     # If there is no unit, converted_result is empty
     df.loc[df['from_unit'].isna(),'converted_result'] = pd.NA
