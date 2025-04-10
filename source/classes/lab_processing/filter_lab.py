@@ -60,11 +60,13 @@ def convert_reference_unit(df, conversion, conversion_factors):
 
 def prepare_lab_unified(df):
     """ Prepare the lab data to be output. """
+    # Identify the individual identificator col
+    id_col = df.columns[0]
     # Select relevant columns
     if 'group' in df.columns:
-        df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit', 'group']].copy()
+        df = df[[id_col, 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit', 'group']].copy()
     else:
-        df = df[['codi_p', 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']].copy()
+        df = df[[id_col, 'peticio_id', 'any', 'data', 'codi_prova', 'prova','clean_result', 'from_unit', 'converted_result', 'to_unit']].copy()
 
     # If there is no unit, converted_result is empty
     df.loc[df['from_unit'].isna(),'converted_result'] = pd.NA

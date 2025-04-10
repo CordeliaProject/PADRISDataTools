@@ -49,6 +49,8 @@ pip install -r requirements.txt
 ## Usage
 PADRISDataTools should be as easy to use as possible. The arguments you should take into account are:
 
+**IMPORTANT**: The individual id column **MUST** be the first column. If not, the tool will not detect it. Also, columns MUST be named as PADRIS names them.
+
 ```
     inpath (str): Path to the input file
     outpath (str): Path to the output file

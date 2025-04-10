@@ -23,7 +23,10 @@ class Lab(CommonData):
 
     def _prepare_lab_data(self):
         """ Prepare the lab data for processing. """
-        self.df = self.df[['codi_p','peticio_id','Any_prova','Data_prova','lab_prova_c','lab_prova','lab_resultat','unitat_mesura','ref_min','ref_max','clean_result','clean_unit','comentari','comentari_unitat','num_type']]
+        #Identify  the individual identifier column
+        id_col = self.df.columns[0]
+        
+        self.df = self.df[[id_col,'peticio_id','Any_prova','Data_prova','lab_prova_c','lab_prova','lab_resultat','unitat_mesura','ref_min','ref_max','clean_result','clean_unit','comentari','comentari_unitat','num_type']]
         self.df = self.df.rename(columns={"Any_prova": "any", "Data_prova": "data", "lab_resultat": "resultat", "lab_prova_c": "codi_prova", "lab_prova":"prova"})
 
         return self.df

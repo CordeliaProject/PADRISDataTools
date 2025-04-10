@@ -78,6 +78,9 @@ class DiagnosticsProcediments(CommonData):
         label_col = self._get_label_column()
         catalogs = self._get_catalog_mapping()
 
+        #Identify the individual identificator in the episodis dataframe
+        id_col = self.episodis.columns[0]
+        
         # Merge the episodis dataframe with the main df
         merged = pd.merge(self.episodis, self.df, on="episodi_id", how="right")
 
@@ -93,7 +96,7 @@ class DiagnosticsProcediments(CommonData):
         fixed_merged.loc[update_condition, 'episodi_id'] = fixed_merged['episodi_id'].abs()
 
         # Drop unnecessary columns
-        columns_to_drop = ["codi_p", "any_referencia"]
+        columns_to_drop = [id_col, "any_referencia"]
         fixed_merged.drop(columns=[col for col in columns_to_drop if col in fixed_merged.columns], inplace=True)
 
         # Group by label columns and find the most common label

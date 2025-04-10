@@ -59,10 +59,16 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, lab_
     elif entity == 'Episodis':
         data_processor = Episodis(df, column_casts['Episodis'])
     elif entity == 'Diagnostics':
-        episodis_small= pd.read_csv(episodis, sep = "|", usecols = ['codi_p', 'episodi_id', 'any_referencia'])
+        # Read the header to identify the id column.
+        cols = pd.read_csv(episodis, sep="|", nrows=0).columns
+        id_col = cols[0]
+        episodis_small= pd.read_csv(episodis, sep = "|", usecols = [id_col, 'episodi_id', 'any_referencia'])
         data_processor = DiagnosticsProcediments(df, column_casts['Diagnostics'], entity, episodis_small)
     elif entity == 'Procediments':
-        episodis_small= pd.read_csv(episodis, sep = "|", usecols = ['codi_p', 'episodi_id', 'any_referencia'])
+        # Read the header to identify the id column.
+        cols = pd.read_csv(episodis, sep="|", nrows=0).columns
+        id_col = cols[0]
+        episodis_small= pd.read_csv(episodis, sep = "|", usecols = [id_col, 'episodi_id', 'any_referencia'])
         data_processor = DiagnosticsProcediments(df, column_casts['Procediments'], entity, episodis_small)
     elif entity == 'Laboratori':
         if lab_option == "filter":
