@@ -55,6 +55,14 @@ class DiagnosticsProcediments(CommonData):
         self.episodis = episodis_df
         self.entity_name = entity_name
 
+    def _check_entity(self):
+        """ Check if the entity is correct."""
+        if self.entity_name == "Diagnostics" and "px" in self.df.columns:
+            raise ValueError("Entity is 'Diagnostics', but column 'px' found. Maybe your entity is 'Procediments'?")
+        elif self.entity_name == "Procediments" and "dx" in self.df.columns:
+            raise ValueError("Entity is 'Procediments', but column 'dx' found. Maybe your entity is 'Diagnostics'?")
+
+
     def _get_catalog_mapping(self):
         """ Return the catalog mapping for Diagnostics or Procediments. """
         return {
@@ -80,7 +88,7 @@ class DiagnosticsProcediments(CommonData):
 
         #Identify the individual identificator in the episodis dataframe
         id_col = self.episodis.columns[0]
-        
+
         # Merge the episodis dataframe with the main df
         merged = pd.merge(self.episodis, self.df, on="episodi_id", how="right")
 
@@ -112,6 +120,7 @@ class DiagnosticsProcediments(CommonData):
 
     def process(self):
         """ Process Diagnostics or Procediments data. """
+        self._check_entity()
         self.df = self.unify_missing()
         self.df = self._fix_inconsistencies()
         self.df = self.cast_columns()

@@ -9,6 +9,7 @@ from source.classes.mortalitat import Mortalitat
 from source.utils.mesures_info import *
 
 import pandas as pd
+import os
 
 def generate_report(df, entity, report_path, preprocessing_df):
     def count_na(df):
@@ -50,6 +51,8 @@ def process_dataframe(df, outpath, entity, column_casts, lab_option = None, lab_
     # In case of Diagnostics or Procediments, check if episodis exist.
     if entity in ['Diagnostics', 'Procediments'] and episodis is None:
         raise ValueError(f"Entity '{entity}' requires an episodis file.")
+    elif entity in ['Diagnostics', 'Procediments'] and not os.path.exists(episodis):
+        raise ValueError(f'The episodis file does not exist.')
 
     # Process the dataframe based on the entity type
     if entity == 'Assegurats':
