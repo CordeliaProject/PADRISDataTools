@@ -25,7 +25,7 @@ class Mesures(CommonData):
 
     def _check_if_mesures(self):
         """Check if the columns correspond to a Mesures file; if not, raise an error."""
-        required_cols = {"Data_prova", "Prova_codi", "Prova_descripcio", "Prova_resultat"}
+        required_cols = {"Prova_data", "Prova_codi", "Prova_descripcio", "Prova_resultat"}
         if not required_cols.issubset(self.df.columns):
             raise ValueError("⚠️ The data does not correspond with a Mesures file or it does not have the corresponding columns.")
 
