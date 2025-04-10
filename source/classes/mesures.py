@@ -32,6 +32,7 @@ class Mesures(CommonData):
     def _filter_by_codes(self):
         """Keep only rows with codes of interest."""
         self.df = self.df[self.df['Prova_codi'].isin(self.codis.keys())]
+        return self.df
 
     @staticmethod
     def _filter_by_range(row, ranges):
@@ -55,6 +56,7 @@ class Mesures(CommonData):
     def _apply_range_filter(self):
         """Filter rows where the measurement value is within allowed range."""
         self.df = self.df[self.df.apply(self._filter_by_range, axis=1, args=(self.ranges,))]
+        return self.df
 
     def _add_unit(self, unitats_mesures):
         """ Add unit from the codis file to the dataframe"""
