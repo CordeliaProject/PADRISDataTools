@@ -1,5 +1,7 @@
 # PADRISDataTools
 
+**IMPORTANT**: The individual id column **MUST** be the first column. If not, the tool will not detect it. Also, columns MUST be named as PADRIS names them.
+
 PADRISDataTools is a collection of Python scripts designed to clean, preprocess, and manage data from PADRIS. This toolset supports the following PADRIS datasets:
 
 - Ensurance data – Assegurats
@@ -47,6 +49,7 @@ pip install -r requirements.txt
 ```
 
 ## Usage
+
 PADRISDataTools should be as easy to use as possible. The arguments you should take into account are:
 
 **IMPORTANT**: The individual id column **MUST** be the first column. If not, the tool will not detect it. Also, columns MUST be named as PADRIS names them.
