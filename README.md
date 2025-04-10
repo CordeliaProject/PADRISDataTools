@@ -1,6 +1,7 @@
 # PADRISDataTools
 
-**IMPORTANT**: The individual id column **MUST** be the first column. If not, the tool will not detect it. Also, columns MUST be named as PADRIS names them.
+**IMPORTANT**: The individual id column **MUST** be the first column. If not, the tool will not detect it. Also, columns MUST be named as PADRIS names them and formated as a CSV file separated by "|".
+
 
 PADRISDataTools is a collection of Python scripts designed to clean, preprocess, and manage data from PADRIS. This toolset supports the following PADRIS datasets:
 
@@ -52,10 +53,10 @@ pip install -r requirements.txt
 
 PADRISDataTools should be as easy to use as possible. The arguments you should take into account are:
 
-**IMPORTANT**: The individual id column **MUST** be the first column. If not, the tool will not detect it. Also, columns MUST be named as PADRIS names them.
+**IMPORTANT**: The individual id column **MUST** be the first column. If not, the tool will not detect it. Also, columns MUST be named as PADRIS names them and formated as a CSV file separated by "|".
 
 ```
-    inpath (str): Path to the input file
+    inpath (str): Path to the input file.
     outpath (str): Path to the output file
     entity (str): Type of entity. Options: 'Assegurats', 'Episodis', 'Diagnostics', 'Procediments', 'Mortalitat', 'Laboratori'
     episodis (str): [Optional] Required only for 'Diagnostics' or 'Procediments'.
@@ -64,12 +65,13 @@ PADRISDataTools should be as easy to use as possible. The arguments you should t
                        If set to 'filter', enables lab test filtering and unit conversion.
     lab_conversion (str): [Optional] Required if lab_option is 'filter'.
                        Path to the conversion file.
+    --report: [Optional] Set if you want to generate a report file for your process.
 ```
 
 The general usage will be:
 
 ```
-python3 main.py <inpath> <outpath> <entity>
+python3 main.py <inpath> <outpath> <entity> [--report]
 ```
 
 ### Special cases

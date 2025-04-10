@@ -59,9 +59,9 @@ class Mesures(CommonData):
         """Run full processing pipeline for Measures data."""
         self.df = self.unify_missing()
         self.df = self.cast_columns()
-        self._filter_by_codes()
-        self._apply_range_filter()
-        self._add_unit(unitats)
+        self.df = self._filter_by_codes()
+        self.df = self._apply_range_filter()
+        self.df = self._add_unit(unitats)
         self.df.rename(columns={"Prova_data": "data", "Prova_resultat": "resultat", 
                                 "Prova_codi": "codi_prova", "Prova_descripcio":"prova"}, inplace=True)
 

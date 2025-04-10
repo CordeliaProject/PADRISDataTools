@@ -2,7 +2,7 @@ import sys
 import pandas as pd
 import os
 import time
-from source.processing import process_dataframe
+from source.processing import process_dataframe, detect_separator
 from source.utils.column_casts import column_casts
 from source.utils.valid_entities import VALID_ENTITIES
 
@@ -37,7 +37,8 @@ def main():
 
     try:
         print("Reading input...")
-        df = pd.read_csv(inpath, sep="|", low_memory=False)
+        sep = detect_separator(inpath)
+        df = pd.read_csv(inpath, sep= sep, low_memory=False)
     except Exception as e:
         raise ValueError("⚠️ Failed to read input file. Ensure it's a CSV with '|' separator.") from e
 

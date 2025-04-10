@@ -33,6 +33,8 @@ class Mortalitat(CommonData):
 
         self.df = self.df.drop(columns=['Causa_CIM9_codi', 'AS_Causa_CIM9', 'Causa_CIM10_codi', 'Causa_CIM10'])
 
+        return self.df
+
     def _harmonize_diagnostics(self):
         """Harmonize diagnostics by selecting the most frequent diagnosis for each group."""
         # Safely get the most frequent cause for each (causa_defuncio_c, catalegcim) combination
@@ -43,8 +45,9 @@ class Mortalitat(CommonData):
     def process(self):
         """ Function to process Assegurats data."""
         self.df = self.unify_missing()
-        self.df = self._add_year_col('data_defuncio')
-        self.df = self._modify_dx_columns()
-        self.df = self._harmonize_diagnostics()
         self.df = self.cast_columns()
+        self.df = self._add_year_col('Data_defuncio')
+        self.df = self._modify_dx_columns()
+        self.df['causa_defuncio'] = self._harmonize_diagnostics()
+        self.df.rename(columns={"Data_defuncio": "data_defuncio"}, inplace=True)
         return self.df

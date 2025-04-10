@@ -10,8 +10,21 @@ from source.utils.mesures_info import *
 
 import pandas as pd
 import os
+import csv 
 
+def detect_separator(inpath):
+    """ Read first row of the file to detect the separator"""
+    with open(inpath, 'r', newline='', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile)
+        first_row = next(reader)  # Get the first row
+
+        if "|" in first_row[0]:
+            return "|"
+        else:
+            raise ValueError("Separator must be '|'.")
+    
 def generate_report(df, entity, report_path, preprocessing_df):
+    """ If --report is on, a report will be generated in the same outpath."""
     def count_na(df):
         na_counts = df.isna().sum()
         total_rows = len(df)

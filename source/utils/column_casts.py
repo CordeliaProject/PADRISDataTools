@@ -14,8 +14,7 @@ column_casts = {
         'data_defuncio': 'datetime64[ns]',
 },
     'Mortalitat': {
-        'any_defuncio': pd.Int64Dtype(),
-        'data_defuncio': 'datetime64[ns]',
+        'Data_defuncio': 'datetime64[ns]',
 },
     'Episodis': {
         'episodi_id': pd.Int64Dtype(),
