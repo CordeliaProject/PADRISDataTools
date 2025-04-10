@@ -12,7 +12,7 @@ PADRISDataTools is a collection of Python scripts designed to clean, preprocess,
 
 - Laboratory data – Laboratori
 
-### Objective
+## Objective
 The main goal of PADRISDataTools is to standardize and prepare PADRIS data for analysis. It applies two common preprocessing steps across all datasets:
 
 - Unification of missing values
@@ -50,12 +50,15 @@ pip install -r requirements.txt
 PADRISDataTools should be as easy to use as possible. The arguments you should take into account are:
 
 ```
-    inpath (str): Path to the input file.
-    outpath (str): Path to the output file.
-    entity (str): Type of entity ('Assegurats', 'Episodis', 'Diagnostics', 'Procediments', 'Mortalitat', 'Laboratori').
-    episodis (str) - OPT: Path to episodis file whn option is Diagnostics or Procediments.
-    lab_option (str) - OPT: Used only if entity == 'Laboratori'. If set to 'filter', applies filtering before processing.
-    lab_conversion (str) - OPT: Used only if entity == 'Laboratori'. If set to 'filter' add path to conversion file.
+    inpath (str): Path to the input file
+    outpath (str): Path to the output file
+    entity (str): Type of entity. Options: 'Assegurats', 'Episodis', 'Diagnostics', 'Procediments', 'Mortalitat', 'Laboratori'
+    episodis (str): [Optional] Required only for 'Diagnostics' or 'Procediments'.
+                       Path to the raw 'Episodis' file.
+    lab_option (str): [Optional] Used only when entity is 'Laboratori'.
+                       If set to 'filter', enables lab test filtering and unit conversion.
+    lab_conversion (str): [Optional] Required if lab_option is 'filter'.
+                       Path to the conversion file.
 ```
 
 The general usage will be:
@@ -66,15 +69,35 @@ python3 main.py <inpath> <outpath> <entity>
 
 ### Special cases
 
-1- If you are working with 'Laboratori' data from PADRIS, and you want to use the 'filter' option. You will need to add the path to a [conversion file](https://drive.google.com/file/d/1z6AZO_aRNcDSPrr4iIxXQJRlPYDJPU9W/view?usp=sharing).
+#### Laboratorti `filter` mode
+If you're working with Laboratori data and want to use the `filter` mode, you'll need to provide the path to a **conversion file**.
 
 ```
 python3 main.py <inpath> <outpath> <entity> 'filter' <lab_conversion>
 ```
 
-The conversion file should look like ## TO DO
+The conversion file must include the following columns:
 
-2- If you are working with 'Diagnostics' or 'Procediments' ## TO DO
+```
+    codi_prova (str): Test code (must match PADRIS lab codes)
+    from_unit (str): Original unit of the measurement
+    factor (float): Multiplication factor to convert to the desired unit
+    to_unit (str): Target unit for conversion
+    group (str): [optional] Classification label to group tests
+```
+
+You must add at least one row per test you wish to filter. You don't need to repeat entries for unit conversions that share the same base if a matching line already exists.
+
+[Example conversion file](https://drive.google.com/file/d/1z6AZO_aRNcDSPrr4iIxXQJRlPYDJPU9W/view?usp=sharing).
+
+#### Diagnostics or Procediments
+For Diagnostics or Procediments, the tool requires access to the raw Episodis data to check for inconsistencies.
+
+```
+python3 main.py <inpath> <outpath> <entity> <episodis>
+```
+
+Make sure the <episodis> argument points to the path of the unprocessed Episodis dataframe.
 
 ## About PADRIS
 The PADRIS program (Programa d'Analítica de Dades per a la Recerca i la Innovació en Salut) aims to make health data accessible for research purposes, aligning with legal and ethical frameworks while maintaining transparency towards the citizens of Catalonia.
