@@ -9,6 +9,12 @@ class Primaria(CommonData):
         """ Constructor for the Assegurats class. """
         super().__init__(df, column_casts)  # Pass outpath to parent constructor
 
+    def _check_if_primaria(self):
+        """Check if the columns correspond to a Primaria file; if not, raise an error."""
+        required_cols = {"any_problema_salut", "data_problema_salut", "data_problema_salut_baixa", "catalegcim_problema_salut_c", "problema_salut_c", "problema_salut"}
+        if not required_cols.issubset(self.df.columns):
+            raise ValueError("⚠️ The data does not correspond with a Primaria file or it does not have the corresponding columns.")
+        
     def _rename_columns(self):
         """ Rename columns from the dataframe to get same variables as in CMBD"""
         self.df = self.df.rename(columns=
@@ -30,6 +36,7 @@ class Primaria(CommonData):
 
     def process(self):
         """ Function to process Primaria data."""
+        self._check_if_primaria()
         self.df = self.unify_missing()
         self.df = self.cast_columns()
         self.df = self._rename_columns()

@@ -23,6 +23,12 @@ class Mesures(CommonData):
         self.ranges = ranges
         self.codis = codis
 
+    def _check_if_mesures(self):
+        """Check if the columns correspond to a Mesures file; if not, raise an error."""
+        required_cols = {"Data_prova", "Prova_codi", "Prova_descripcio", "Prova_resultat"}
+        if not required_cols.issubset(self.df.columns):
+            raise ValueError("⚠️ The data does not correspond with a Mesures file or it does not have the corresponding columns.")
+
     def _filter_by_codes(self):
         """Keep only rows with codes of interest."""
         self.df = self.df[self.df['Prova_codi'].isin(self.codis.keys())]
@@ -57,6 +63,7 @@ class Mesures(CommonData):
 
     def process(self):
         """Run full processing pipeline for Measures data."""
+        self._check_if_mesures()
         self.df = self.unify_missing()
         self.df = self.cast_columns()
         self.df = self._filter_by_codes()

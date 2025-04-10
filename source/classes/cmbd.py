@@ -11,6 +11,15 @@ class Episodis(CommonData):
         """ Constructor for the Assegurats class. """
         super().__init__(df, column_casts)  # Pass outpath to parent constructor
 
+    def _check_if_episodis(self):
+        """Check if the columns correspond to a Episodis file; if not, raise an error."""
+        required_cols = {'episodi_id', 'up_c', 'up', 'any_referencia', 'data_ingres',
+       'data_alta', 'dies_estada_n', 'circumstancia_ingres_c',
+       'circumstancia_ingres', 'circumstancia_alta_c', 'circumstancia_alta',
+       'tipus_activitat_c', 'tipus_activitat'}
+        if not required_cols.issubset(self.df.columns):
+            raise ValueError("⚠️ The data does not correspond with a Episodis file or it does not have the corresponding columns.")
+        
     def _fix_inconsistencies(self):
         """ 
         Detect inconsistencies in episodi identifiers.
@@ -25,6 +34,7 @@ class Episodis(CommonData):
 
     def process(self):
         """ Function to process Episodis data."""
+        self._check_if_episodis()
         self.df = self.unify_missing()
         self.df = self.cast_columns()
 
@@ -55,6 +65,15 @@ class DiagnosticsProcediments(CommonData):
         self.episodis = episodis_df
         self.entity_name = entity_name
 
+    def _check_if_DP(self):
+        """Check if the columns correspond to a Diagnostics or Procediments file; if not, raise an error."""
+        if self.entity_name == "Diagnostics":
+            required_cols = {'episodi_id', 'dx_posicio', 'dx_c', 'dx', 'catalegcim_dx'}
+        elif self.entity_name == "Procediments":
+            required_cols = {'episodi_id', 'px_posicio', 'px_c', 'px', 'catalegcim_px'}
+        if not required_cols.issubset(self.df.columns):
+            raise ValueError("⚠️ The data does not correspond with a Diagnostics or Procediments file or it does not have the corresponding columns.")
+        
     def _check_entity(self):
         """ Check if the entity is correct."""
         if self.entity_name == "Diagnostics" and "px" in self.df.columns:
@@ -120,6 +139,7 @@ class DiagnosticsProcediments(CommonData):
 
     def process(self):
         """ Process Diagnostics or Procediments data. """
+        self._check_if_DP()
         self._check_entity()
         self.df = self.unify_missing()
         self.df = self._fix_inconsistencies()

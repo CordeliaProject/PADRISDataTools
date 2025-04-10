@@ -10,7 +10,12 @@ class Mortalitat(CommonData):
     def __init__(self, df, column_casts):
         """ Constructor for the Assegurats class. """
         super().__init__(df, column_casts) 
-
+    
+    def _check_if_mortalitat(self):
+        """Check if the columns correspond to a Mortalitat file; if not, raise an error."""
+        required_cols = {"Data_defuncio", "Causa_CIM9_codi", "Causa_CIM10_codi", "AS_Causa_CIM9","AS_Causa_CIM10"}
+        if not required_cols.issubset(self.df.columns):
+            raise ValueError("⚠️ The data does not correspond with a Mortalitat file or it does not have the corresponding columns.")
 
     def _add_year_col(self, date_col):
         """ Add a year column from a date column."""
@@ -44,6 +49,7 @@ class Mortalitat(CommonData):
 
     def process(self):
         """ Function to process Assegurats data."""
+        self._check_if_mortalitat()
         self.df = self.unify_missing()
         self.df = self.cast_columns()
         self.df = self._add_year_col('Data_defuncio')
