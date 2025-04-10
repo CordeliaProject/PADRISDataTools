@@ -10,7 +10,7 @@ def read_conversion_file(lab_conversion):
         return None
 
     try:
-        conversion = pd.read_csv(lab_conversion, sep="|")
+        conversion = pd.read_excel(lab_conversion)
         return conversion
     except FileNotFoundError:
         print(f"File not found: {lab_conversion}")

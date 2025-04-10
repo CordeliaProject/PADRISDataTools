@@ -70,7 +70,7 @@ python3 main.py <inpath> <outpath> <entity>
 ### Special cases
 
 #### Laboratorti `filter` mode
-If you're working with Laboratori data and want to use the `filter` mode, you'll need to provide the path to a **conversion file**.
+If you're working with Laboratori data and want to use the `filter` mode, you'll need to provide the path to a **conversion file**, which is an excel file with just one sheet.
 
 ```
 python3 main.py <inpath> <outpath> <entity> 'filter' <lab_conversion>
@@ -88,7 +88,8 @@ The conversion file must include the following columns:
 
 You must add at least one row per test you wish to filter. You don't need to repeat entries for unit conversions that share the same base if a matching line already exists.
 
-[Example conversion file](https://drive.google.com/file/d/1z6AZO_aRNcDSPrr4iIxXQJRlPYDJPU9W/view?usp=sharing).
+[Example conversion file](https://docs.google.com/spreadsheets/d/1psceKUL4BeNs7xuVsmPr4IceuKPLsgO_/edit?usp=sharing&ouid=113699313160507628266&rtpof=true&sd=true).
+
 
 #### Diagnostics or Procediments
 For Diagnostics or Procediments, the tool requires access to the raw Episodis data to check for inconsistencies.
@@ -97,7 +98,8 @@ For Diagnostics or Procediments, the tool requires access to the raw Episodis da
 python3 main.py <inpath> <outpath> <entity> <episodis>
 ```
 
-Make sure the <episodis> argument points to the path of the unprocessed Episodis dataframe.
+Make sure the <episodis> argument points to the path of the unprocessed Episodis dataframe
+
 
 ## About PADRIS
 The PADRIS program (Programa d'Analítica de Dades per a la Recerca i la Innovació en Salut) aims to make health data accessible for research purposes, aligning with legal and ethical frameworks while maintaining transparency towards the citizens of Catalonia.
