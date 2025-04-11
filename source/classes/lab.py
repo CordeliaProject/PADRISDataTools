@@ -43,7 +43,7 @@ class Lab(CommonData):
         """ Function to process Assegurats data."""
         warnings.filterwarnings("ignore", category=UserWarning, message=".*match groups.*") # Ignore warnings.
 
-        self._check_if_lab()
+        #self._check_if_lab()
         self.df = self.unify_missing() # Unify missing values to be pd.NA
         self.df = self._fill_missing() # Fill missing values in the lab_resultat col with nocalc
 
