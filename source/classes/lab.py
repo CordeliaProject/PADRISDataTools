@@ -18,8 +18,7 @@ class Lab(CommonData):
     def _check_if_lab(self):
         """Check if the columns correspond to a Laboratori file; if not, raise an error."""
         required_cols = {"Any_prova", "Data_prova", "peticio_id", "lab_prova_c", "lab_prova", "lab_resultat", "unitat_mesura", "ref_min", "ref_max"}
-        required_cols_filt = {"any", "data", "peticio_id", "codi_prova", "prova", "resultat"}
-        if not required_cols.issubset(self.df.columns) or not required_cols_filt.issubset(self.df.columns):
+        if not required_cols.issubset(self.df.columns):
             raise ValueError("⚠️ The data does not correspond with a Laboratori file or it does not have the corresponding columns.")
         
     def _fill_missing(self):
@@ -43,7 +42,7 @@ class Lab(CommonData):
         """ Function to process Assegurats data."""
         warnings.filterwarnings("ignore", category=UserWarning, message=".*match groups.*") # Ignore warnings.
 
-        #self._check_if_lab()
+        self._check_if_lab()
         self.df = self.unify_missing() # Unify missing values to be pd.NA
         self.df = self._fill_missing() # Fill missing values in the lab_resultat col with nocalc
 
@@ -63,7 +62,7 @@ class Lab(CommonData):
     
     def filter_lab(self, lab_conversion):
         """ Filter lab data based on codi_prova from the conversion file.  And unify the units. """
-        self._check_if_lab()
+        #self._check_if_lab()
         conversion = read_conversion_file(lab_conversion) # Read the conversion file
         self.df = filter_lab_codi(self.df, conversion) # Filter the interesting tests with the conversion file 
         self.df = convert_reference_unit(self.df, conversion, conversion_factors) # Convert to reference unit
