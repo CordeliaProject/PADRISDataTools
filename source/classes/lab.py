@@ -18,7 +18,8 @@ class Lab(CommonData):
     def _check_if_lab(self):
         """Check if the columns correspond to a Laboratori file; if not, raise an error."""
         required_cols = {"Any_prova", "Data_prova", "peticio_id", "lab_prova_c", "lab_prova", "lab_resultat", "unitat_mesura", "ref_min", "ref_max"}
-        if not required_cols.issubset(self.df.columns):
+        required_cols_filt = {"any", "data", "peticio_id", "codi_prova", "prova", "resultat"}
+        if not required_cols.issubset(self.df.columns) or not required_cols_filt.issubset(self.df.columns):
             raise ValueError("⚠️ The data does not correspond with a Laboratori file or it does not have the corresponding columns.")
         
     def _fill_missing(self):
