@@ -2,6 +2,7 @@
 # Functions to filter lab data
 from source.classes.lab_processing.convert import conversion_factors
 import pandas as pd
+import openpyxl
 
 def read_conversion_file(lab_conversion):
     """ Read file with lab variables conversion."""
