@@ -2,6 +2,7 @@
 
 conversion_factors_dict = {
     ("g/L", "mg/dL"): 100,     # 1 g/L = 100 mg/dL
+    ("g/dL", "mg/dL"): 1000,     # 1 g/dL = 10 mg/dL
     ("mg/dL", "g/L"): 0.01,    # 1 mg/dL = 0.01 g/L
     ("mg/dL", "mg/L"): 10,     # 1 mg/dL = 10 mg/L
     ("mg/L", "mg/dL"): 0.1,    # 1 mg/L = 0.1 mg/dL

@@ -1,6 +1,7 @@
 ################################################
 # Functions to filter lab data
 import pandas as pd
+import numpy as np
 import openpyxl
 
 def read_conversion_file(lab_conversion):
@@ -46,9 +47,11 @@ def convert_reference_unit(df, conversion, conversion_factors_dict):
     merged_df.loc[merged_df['from_unit'] == merged_df['to_unit'], 'factor'] = 1
 
     # 2. Add factor when it is not in the conversion file but the factor is in the conversion factors dict
-    merged_df.loc[merged_df['factor'].isna(), 'factor'] = merged_df.apply(
-            lambda row: conversion_factors_dict.get((row['from_unit'], row['to_unit']), pd.NA), axis=1
-        )
+    mask = merged_df['factor'].isna()
+    merged_df.loc[mask, 'factor'] = merged_df[mask].apply(
+        lambda row: conversion_factors_dict.get((row['from_unit'], row['to_unit']), pd.NA),
+        axis=1
+    )
 
     # FINAL: Convert the result using the factor
     merged_df['converted_result'] = (merged_df['clean_result'] * merged_df['factor']).round(2)
