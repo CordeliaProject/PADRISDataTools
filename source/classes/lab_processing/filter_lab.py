@@ -35,7 +35,7 @@ def convert_reference_unit(df, conversion, conversion_factors_dict):
     df.loc[:, 'to_unit'] = df['codi_prova'].map(conversion_short.set_index('codi_prova')['to_unit'])
 
     # Filter to get only numeric results and convert the data type
-    df = [df['num_type'] == 'n1']
+    df = df[df['num_type'] == 'n1']
     df.loc[:, 'clean_result'] = pd.to_numeric(df['clean_result'], errors='coerce')
     
     # Merge the conversion dataframe to get the conversion factors
