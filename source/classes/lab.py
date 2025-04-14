@@ -3,7 +3,7 @@ from source.classes.common import CommonData
 from source.classes.lab_processing.clean_lab import *
 from source.classes.lab_processing.filter_lab import *
 from source.classes.lab_processing.patterns import *
-from source.classes.lab_processing.convert import conversion_factors
+from source.classes.lab_processing.convert import conversion_factors_dict
 import warnings
 
 class Lab(CommonData):
