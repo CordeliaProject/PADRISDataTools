@@ -25,7 +25,7 @@ def filter_lab_codi(df, conversion):
 
     return df
 
-def convert_reference_unit(df, conversion, conversion_factors):
+def convert_reference_unit(df, conversion, conversion_factors_dict):
     """ Convert units to the reference unit."""
 
     df = df.copy()
