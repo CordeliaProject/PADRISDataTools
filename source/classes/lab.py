@@ -65,7 +65,7 @@ class Lab(CommonData):
         #self._check_if_lab()
         conversion = read_conversion_file(lab_conversion) # Read the conversion file
         self.df = filter_lab_codi(self.df, conversion) # Filter the interesting tests with the conversion file 
-        self.df = convert_reference_unit(self.df, conversion, conversion_factors) # Convert to reference unit
+        self.df = convert_reference_unit(self.df, conversion, conversion_factors_dict) # Convert to reference unit
         self.df = prepare_lab_unified(self.df) # Prepare the dataframe
 
         self.df = self.cast_columns()

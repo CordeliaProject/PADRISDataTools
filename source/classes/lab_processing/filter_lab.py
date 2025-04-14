@@ -1,6 +1,5 @@
 ################################################
 # Functions to filter lab data
-from source.classes.lab_processing.convert import conversion_factors_dict
 import pandas as pd
 import openpyxl
 
