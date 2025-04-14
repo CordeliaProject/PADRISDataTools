@@ -1,6 +1,6 @@
 # Dictionary to convert between different units of measurement for lab results.
 
-conversion_factors = {
+conversion_factors_dict = {
     ("g/L", "mg/dL"): 100,     # 1 g/L = 100 mg/dL
     ("mg/dL", "g/L"): 0.01,    # 1 mg/dL = 0.01 g/L
     ("mg/dL", "mg/L"): 10,     # 1 mg/dL = 10 mg/L
@@ -13,4 +13,5 @@ conversion_factors = {
     ("ug/mL", "mg/dL"): 0.1, # 1 µg/mL = 0.1 mg/dL
     ("mg/L", "ug/dL"): 100,    # 1 mg/L = 100 µg/dL
     ("ug/dL", "mg/L"): 0.01,   # 1 µg/dL = 0.01 mg/L
+    ("ng/mL", "mg/dL"): 0.0001,   # 1 ng/mL = 0.0001 mg/dL
 }

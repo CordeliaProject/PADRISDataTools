@@ -1,6 +1,6 @@
 ################################################
 # Functions to filter lab data
-from source.classes.lab_processing.convert import conversion_factors
+from source.classes.lab_processing.convert import conversion_factors_dict
 import pandas as pd
 import openpyxl
 
@@ -34,8 +34,9 @@ def convert_reference_unit(df, conversion, conversion_factors):
     # Add the reference unit to the lab dataframe
     conversion_short = conversion[['codi_prova', 'to_unit']].drop_duplicates()
     df.loc[:, 'to_unit'] = df['codi_prova'].map(conversion_short.set_index('codi_prova')['to_unit'])
-    #print(df)
+
     # Filter to get only numeric results and convert the data type
+    df = [df['num_type'] == 'n1']
     df.loc[:, 'clean_result'] = pd.to_numeric(df['clean_result'], errors='coerce')
     
     # Merge the conversion dataframe to get the conversion factors
@@ -47,7 +48,7 @@ def convert_reference_unit(df, conversion, conversion_factors):
 
     # 2. Add factor when it is not in the conversion file but the factor is in the conversion factors dict
     merged_df.loc[merged_df['factor'].isna(), 'factor'] = merged_df.apply(
-            lambda row: conversion_factors.get((row['from_unit'], row['to_unit']), 1), axis=1
+            lambda row: conversion_factors_dict.get((row['from_unit'], row['to_unit']), pd.NA), axis=1
         )
 
     # FINAL: Convert the result using the factor
