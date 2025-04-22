@@ -47,8 +47,8 @@ column_casts = {
     'Filtered_laboratori': { 
         'any': pd.Int64Dtype(),
         'data': 'datetime64[ns]',
-        'clean_result': 'float',
-        'converted_result': 'float',
+        'clean_result': 'Float64',
+        'converted_result': 'Float64',
 },
     'Primaria': { 
         'any_problema_salut': pd.Int64Dtype(),
