@@ -26,12 +26,22 @@ def filter_lab_codi(df, conversion):
     return df
 
 def apply_conversion(row):
-    """" Apply conversion factor to the result. """
-    if isinstance(row['factor'], str) and 'value' in row['factor']:
-        # Evaluate expression like "0.09148*value+2.152"
-        return eval(row['factor'].replace('value', str(row['value'])))
-    else:
-        return row['value'] * float(row['factor'])
+    """Apply conversion factor to the clean_result value and round to 2 decimals."""
+    value = row['clean_result']
+    factor = row['factor']
+    
+    if pd.isna(value) or pd.isna(factor):
+        return pd.NA
+
+    try:
+        # Handle expression-based factors
+        if isinstance(factor, str) and 'value' in factor:
+            result = eval(factor.replace('value', str(value)))
+        else:
+            result = value * float(factor)
+        return round(result, 2)
+    except Exception as e:
+        return pd.NA
     
 def convert_reference_unit(df, conversion, conversion_factors_dict):
     """ Convert units to the reference unit."""
@@ -62,7 +72,7 @@ def convert_reference_unit(df, conversion, conversion_factors_dict):
     )
 
     # FINAL: Convert the result using the factor
-    merged_df['converted_value'] = merged_df.apply(apply_conversion, axis=1).round(2)
+    merged_df['converted_result'] = merged_df.apply(apply_conversion, axis=1)
 
     # ADD group
     conversion_group = conversion[['codi_prova', 'group']].drop_duplicates()
